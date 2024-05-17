@@ -1,5 +1,5 @@
 import React from 'react'
-import { BiPlus, BiUser } from 'react-icons/bi'
+import { BiPlus, BiUser, BiLogOut } from 'react-icons/bi'
 
 type Props = {
   setFormState: (formState: boolean) => void,
