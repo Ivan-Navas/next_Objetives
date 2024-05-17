@@ -1,5 +1,5 @@
 import React from 'react'
-import { BiPlus, BiUser, BiLogOut } from 'react-icons/bi'
+import { BiPlus, BiLogOut } from 'react-icons/bi'
 
 type Props = {
   setFormState: (formState: boolean) => void,
@@ -12,7 +12,7 @@ function Options(props: Props) {
         <BiPlus className='text-titles text-60'/>
       </button>
       <button>
-        <BiUser className='text-titles text-60'/>
+        <BiLogOut className='text-titles text-60'/>
       </button>
     </div>
   )
