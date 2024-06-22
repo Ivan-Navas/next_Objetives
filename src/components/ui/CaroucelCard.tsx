@@ -87,7 +87,6 @@ const CaroucelCard = (props: Props) => {
                 onClick={() => {
                   if (page > 0) {
                     setPage(page - 1);
-                    console.log(page)
                   }
                 }}
               >
@@ -122,7 +121,6 @@ const CaroucelCard = (props: Props) => {
                 onClick={() => {
                   if (page < caroucelState.caroucel.length - 1) {
                     setPage(page + 1);
-                    console.log(page)
                   }
                 }}
               >

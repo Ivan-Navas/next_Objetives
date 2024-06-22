@@ -9,11 +9,9 @@ function Caroucel() {
     setTimeout(() => {
       if(page < caroucelState.caroucel.length - 1 ){
         setPage(page + 1);
-        console.log(page);
       }
       if(page == caroucelState.caroucel.length -1){
         setPage(0);
-        console.log(page);
       } 
     }, 5000);
   })
