@@ -80,9 +80,11 @@ function Feed() {
               })}
             </>
           ) : (
-            <>
-              <h2>No hay objetivos</h2>
-            </>
+            <div className="w-ful flex items-cemter justify-center col-span-3">
+              <h2 className="text-titles font-roboto font-extrabold ">
+                No hay objetivos
+              </h2>
+            </div>
           )}
         </div>
       </section>

@@ -7,8 +7,7 @@ interface Props {
 }
 
 function Stadistic(props: Props) {
-
-  const { addPoint, getPorcent } = useAppContext();
+  const { addPoint, getPorcent, objetives } = useAppContext();
   const [porcent, setPorcent] = useState<number>(0);
 
   useEffect(() => {
@@ -44,7 +43,8 @@ function Stadistic(props: Props) {
             <circle
               className="fill-none  stroke-10 flex items-center  justify-center"
               style={{
-                strokeDasharray: getPorcent(props.progress, props.total) + ",100",
+                strokeDasharray:
+                  getPorcent(props.progress, props.total) + ",100",
                 transform: "rotate(-90deg)",
                 transformOrigin: "50%",
                 stroke: `url(#linearS)`,
@@ -57,7 +57,11 @@ function Stadistic(props: Props) {
           </svg>
         </div>
         <p className="font-extrabold text-26 absolute text-center font-roboto ">
-          {getPorcent(props.progress, props.total)}%
+          {objetives.length >= 1 ? (
+            <>{getPorcent(props.progress, props.total)}%</>
+          ) : (
+            <>0%</>
+          )}
         </p>
       </div>
       <div className="w-full grid grid-cols-2  bg-font rounded-16 p-2">
