@@ -8,7 +8,12 @@ import { Credential } from "@/interface/login";
 import User from "@/interface/user";
 import { Objetives } from "@/interface/objetives";
 import { useRouter } from "next/navigation";
-import { Caroucel, CaroucelOb, CaroRequest, Caroucel2 } from "@/interface/caroucel";
+import {
+  Caroucel,
+  CaroucelOb,
+  CaroRequest,
+  Caroucel2,
+} from "@/interface/caroucel";
 
 const AppContext = createContext<ContextType>({
   objetives: [],
@@ -82,20 +87,20 @@ const AppContext = createContext<ContextType>({
   caroucelState: {
     status: "",
     message: "",
-    caroucel: []
+    caroucel: [],
   },
   setCaroucelState: () => {},
   caroucel: () => {},
   caroucelOb: {
-      title:"",
-      page: 0,
-      objetive:{
-        title:"",
-        progress:0,
-        amount:0,
-      }
+    title: "",
+    page: 0,
+    objetive: {
+      title: "",
+      progress: 0,
+      amount: 0,
+    },
   },
-  setCaroucelOb: ()=>{},
+  setCaroucelOb: () => {},
   page: 0,
   setPage: () => {},
 });
@@ -147,25 +152,24 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
     password: "",
   });
   const [caroucelState2, setCaroucelState2] = useState<Caroucel>({
-    card: [] 
+    card: [],
   });
   const [caroucelState, setCaroucelState] = useState<CaroRequest>({
-    status:"",
-    message:"",
-    caroucel: []
+    status: "",
+    message: "",
+    caroucel: [],
   });
 
   const [caroucelOb, setCaroucelOb] = useState<CaroucelOb>({
-      title:"",
-      page: 0,
-      objetive:{
-        title:"",
-        progress:0,
-        amount:0,
-      }
-    }
-  )
-  const [page, setPage] = useState<number>(0)
+    title: "",
+    page: 0,
+    objetive: {
+      title: "",
+      progress: 0,
+      amount: 0,
+    },
+  });
+  const [page, setPage] = useState<number>(0);
 
   //#region functions
   const handleObjetive = (e: any) => {
@@ -178,8 +182,6 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
   const profile = async () => {
     const request = await fetch("/api/user/profile");
     const data = await request.json();
-    console.log(data);
-    
     setAuth(data.user);
     const obRequest = await fetch(`/api/objetive/get/${data.user.id}`, {
       method: "GET",
@@ -199,12 +201,13 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
       }
       setStateObjetiveComplete(myCompleteObjetive);
     }
-      const caroucelReq = await fetch("/api/objetive/caroucel");
-      const caroucelData: CaroRequest = await caroucelReq.json();
-      if(caroucelData.status === "success"){
-          setCaroucelState(caroucelData)
-          setCaroucelOb(caroucelData.caroucel[page]);
-        }
+    const caroucelReq = await fetch("/api/objetive/caroucel");
+    const caroucelData: CaroRequest = await caroucelReq.json();
+    if (caroucelData.status === "success") {
+      setCaroucelState(caroucelData);
+      console.log(caroucelData);
+      setCaroucelOb(caroucelData.caroucel[page]);
+    }
     setStateObjetive(obData.objetives.length);
     return data.user;
   };
@@ -350,9 +353,7 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
     return porcent;
   };
 
-  const caroucel = async () => {
-
-    };
+  const caroucel = async () => {};
 
   //#region values
   return (
