@@ -205,7 +205,6 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
     const caroucelData: CaroRequest = await caroucelReq.json();
     if (caroucelData.status === "success") {
       setCaroucelState(caroucelData);
-      console.log(caroucelData);
       setCaroucelOb(caroucelData.caroucel[page]);
     }
     setStateObjetive(obData.objetives.length);
