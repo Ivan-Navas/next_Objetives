@@ -1,6 +1,9 @@
 "use client";
 import React, { createContext, useContext, useState, useEffect } from "react";
-import { Objetive as ObjetiveInterface } from "@/interface/objetive";
+import {
+  Objetive as ObjetiveInterface,
+  RequestObjetive,
+} from "@/interface/objetive";
 import { ContextType } from "@/types/indexTypes";
 import { Stadistic as StadisticInterface } from "@/interface/stadistic";
 import { Auth as AuthInterface } from "@/interface/auth";
@@ -103,6 +106,8 @@ const AppContext = createContext<ContextType>({
   setCaroucelOb: () => {},
   page: 0,
   setPage: () => {},
+  file: "",
+  setFile: () => {},
 });
 
 export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
@@ -170,6 +175,7 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
     },
   });
   const [page, setPage] = useState<number>(0);
+  const [file, setFile] = useState<any>(null);
 
   //#region functions
   const handleObjetive = (e: any) => {
@@ -224,11 +230,26 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
           },
         });
         const data = await response.json();
+        const formData = new FormData();
+        formData.append("file", file);
+        const addImageRequest = await fetch(
+          `/api/objetive/add-image/${data.objetive.id}`,
+          {
+            method: "PUT",
+            body: formData,
+          }
+        );
+        const addImageRes: RequestObjetive = await addImageRequest.json();
 
-        if (data.status === "success") {
+        if (data.status === "success" && !file) {
           setObjetives([...objetives, data.objetive]);
           setFormState(false);
         }
+        if (file && addImageRes.status === "success") {
+          setObjetives([...objetives, addImageRes.objetive]);
+          setFormState(false);
+        }
+        setFile(null);
       } catch (error) {
         console.log(error);
       }
@@ -409,6 +430,8 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
         setCaroucelOb,
         page,
         setPage,
+        file,
+        setFile,
       }}
     >
       {children}
