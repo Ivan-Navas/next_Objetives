@@ -15,11 +15,13 @@ export const PUT = async (req: Request, { params }: any) => {
       where: {
         id: parseInt(objetiveId),
       },
+      include: {
+        user: true
+      }
     });
     if (exist) {
       const data = await req.formData();
       const file: any = data.get("file");
-
       if (!file) {
         return NextResponse.json({
           status: "error",
@@ -32,7 +34,7 @@ export const PUT = async (req: Request, { params }: any) => {
         cloudinary.uploader
           .upload_stream(
             {
-              folder: "Oinc/objetive_images",
+              folder: `Oinc/objetive_images/${exist.user.name}`,
             },
             (err, result) => {
               if (err) {
