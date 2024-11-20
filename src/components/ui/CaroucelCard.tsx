@@ -13,6 +13,7 @@ type Props = {
 const CaroucelCard = (props: Props) => {
   const { caroucelState, addPoint, getPorcent, page, setPage, caroucelOb } =
     useAppContext();
+  console.log(props.objetive);
 
   return (
     <div className="w-full h-166 bg-back ml-16 rounded-16">
@@ -64,7 +65,7 @@ const CaroucelCard = (props: Props) => {
                       />
                     </svg>
                     <img
-                      src={image}
+                      src={props.objetive.objetive.image}
                       alt="objetive_icon"
                       className="w-50 h-50 ml-10 absolute rounded-100%"
                     />
