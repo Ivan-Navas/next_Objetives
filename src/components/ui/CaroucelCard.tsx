@@ -13,10 +13,9 @@ type Props = {
 const CaroucelCard = (props: Props) => {
   const { caroucelState, addPoint, getPorcent, page, setPage, caroucelOb } =
     useAppContext();
-  console.log(props.objetive);
 
   return (
-    <div className="w-full h-166 bg-back ml-16 rounded-16">
+    <div className="w-full h-166 bg-back ml-16 rounded-16 relative">
       {caroucelState.caroucel.length > 0 ? (
         <>
           {caroucelOb.objetive ? (
@@ -85,10 +84,14 @@ const CaroucelCard = (props: Props) => {
               </div>
             </>
           ) : (
-            <></>
+            <div className="h-full flex items-center justify-center">
+              <h2 className="text-titles text-center text-20 font-extrabold ">
+                Ningun objetivo cumple esta condicion
+              </h2>
+            </div>
           )}
 
-          <div className="w-full flex items-center justify-center ">
+          <div className="w-full flex items-center justify-center absolute bottom-1  ">
             {caroucelState.caroucel.length > 1 && (
               <button
                 type="button"

@@ -22,8 +22,8 @@ export const GET = async (request: any) => {
     let complete;
     let more = {
       title: "",
-      progress: 0,
-      amount: 0,
+      progress: 1,
+      amount: 1,
     };
     let minus = {
       title: "",
@@ -73,14 +73,14 @@ export const GET = async (request: any) => {
         ) {
           minus = element;
         }
-        if (getPorcent(element.progress, element.amount) < 100) {
-          if (
-            getPorcent(more.progress, more.amount) <
-            getPorcent(element.progress, element.amount)
-          ) {
-            more = element;
-          }
-        }
+        // if (getPorcent(element.progress, element.amount) < 100) {
+        //   if (
+        //     getPorcent(more.progress, more.amount) <
+        //     getPorcent(element.progress, element.amount)
+        //   ) {
+        //     more = element;
+        //   }
+        // }
       }
     }
     const last = objetives[objetives.length - 1];
@@ -104,11 +104,11 @@ export const GET = async (request: any) => {
           page: 3,
           objetive: minus,
         },
-        {
-          title: "Mas cercano a 100%",
-          page: 4,
-          objetive: more,
-        },
+        // {
+        //   title: "Mas cercano a 100%",
+        //   page: 4,
+        //   objetive: more,
+        // },
       ],
     });
   } else {
