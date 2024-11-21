@@ -11,7 +11,7 @@ type Props = {
 };
 
 function Objetive(props: Props) {
-  const { setEditState, addPoint, objetives, setObjetives, setEditObjetive } =
+  const { setEditState, addPoint, objetives, setObjetives, setEditObjetive, getPorcent } =
     useAppContext();
   let p: number = 0;
   const [opacity, setOpacity] = useState<number>(0);
@@ -46,7 +46,7 @@ function Objetive(props: Props) {
       </button>
       <section>
         <h2 className="text-center text-titles text-16 font-extrabold font-roboto">
-          {p}%
+          {getPorcent(props.progress, props.amount)}%
         </h2>
         <div className="flex relative items-center justify-center">
           <svg className="w-110 h-110  ">
@@ -64,7 +64,7 @@ function Objetive(props: Props) {
               pathLength={100}
               className="fill-none  stroke-10 flex items-center  justify-center absolute top-0 r-0"
               style={{
-                strokeDasharray: p + ",100",
+                strokeDasharray: getPorcent(props.progress, props.amount) + ",100",
                 transform: "rotate(-90deg)",
                 transformOrigin: "50%",
                 stroke: "url(#linear)",

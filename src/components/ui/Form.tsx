@@ -5,14 +5,14 @@ import { BiImageAdd } from "react-icons/bi";
 import { useAppContext } from "@/Context";
 
 export function Form() {
+  const { handleObjetive, createObjetive, setFormState, file, setFile } =
+    useAppContext();
 
-  const { handleObjetive, createObjetive, setFormState} = useAppContext();
-  
-  const useEnter = (e: any)=>{
-    if(e.key === "Enter"){
+  const useEnter = (e: any) => {
+    if (e.key === "Enter") {
       createObjetive();
     }
-  }
+  };
 
   return (
     <div className="w-screen h-screen fixed top-0 left-0 flex items-center justify-center bg-semi">
@@ -22,6 +22,7 @@ export function Form() {
           onClick={(e: any) => {
             e.preventDefault();
             setFormState(false);
+            setFile(null);
           }}
         >
           {" "}
@@ -47,14 +48,19 @@ export function Form() {
             required
             onChange={handleObjetive}
             onKeyDown={useEnter}
-            />
+          />
           <div className="bg-transparent relative cursor-pointer">
             <input
               type="file"
-              name="image"
+              title="file"
               id="image"
               className="absolute top-0 right-0 left-0 bottom-0 opacity-0 cursor-pointer"
-              />
+              onChange={(e) => {
+                if (e.target && e.target.files && e.target.files.length > 0) {
+                  setFile(e.target.files[0]);
+                }
+              }}
+            />
             <BiImageAdd className="w-40 h-40 text-titles  cursor-pointer" />
           </div>
         </div>
@@ -64,8 +70,8 @@ export function Form() {
             onClick={(e: any) => {
               e.preventDefault();
               createObjetive();
-            }}     
-            >
+            }}
+          >
             Agregar
           </button>
         </div>

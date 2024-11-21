@@ -1,6 +1,9 @@
 "use client";
 import React, { createContext, useContext, useState, useEffect } from "react";
-import { Objetive as ObjetiveInterface } from "@/interface/objetive";
+import {
+  Objetive as ObjetiveInterface,
+  RequestObjetive,
+} from "@/interface/objetive";
 import { ContextType } from "@/types/indexTypes";
 import { Stadistic as StadisticInterface } from "@/interface/stadistic";
 import { Auth as AuthInterface } from "@/interface/auth";
@@ -8,6 +11,12 @@ import { Credential } from "@/interface/login";
 import User from "@/interface/user";
 import { Objetives } from "@/interface/objetives";
 import { useRouter } from "next/navigation";
+import {
+  Caroucel,
+  CaroucelOb,
+  CaroRequest,
+  Caroucel2,
+} from "@/interface/caroucel";
 
 const AppContext = createContext<ContextType>({
   objetives: [],
@@ -71,7 +80,34 @@ const AppContext = createContext<ContextType>({
   SetUserToRegister: () => {},
   registerUser: () => {},
   registerMessage: "",
-  setRegisterMessage: ()=> {}
+  setRegisterMessage: () => {},
+  logOut: () => {},
+  getPorcent: () => 0,
+  stateMoneyComplete: 0,
+  setStateMoneyComplete: () => {},
+  stateObjetiveComplete: 0,
+  setStateObjetiveComplete: () => {},
+  caroucelState: {
+    status: "",
+    message: "",
+    caroucel: [],
+  },
+  setCaroucelState: () => {},
+  caroucel: () => {},
+  caroucelOb: {
+    title: "",
+    page: 0,
+    objetive: {
+      title: "",
+      progress: 0,
+      amount: 0,
+    },
+  },
+  setCaroucelOb: () => {},
+  page: 0,
+  setPage: () => {},
+  file: "",
+  setFile: () => {},
 });
 
 export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
@@ -118,8 +154,28 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
   const [userToRegister, SetUserToRegister] = useState<User>({
     email: "",
     name: "",
-    password: ""
-  })
+    password: "",
+  });
+  const [caroucelState2, setCaroucelState2] = useState<Caroucel>({
+    card: [],
+  });
+  const [caroucelState, setCaroucelState] = useState<CaroRequest>({
+    status: "",
+    message: "",
+    caroucel: [],
+  });
+
+  const [caroucelOb, setCaroucelOb] = useState<CaroucelOb>({
+    title: "",
+    page: 0,
+    objetive: {
+      title: "",
+      progress: 0,
+      amount: 0,
+    },
+  });
+  const [page, setPage] = useState<number>(0);
+  const [file, setFile] = useState<any>(null);
 
   //#region functions
   const handleObjetive = (e: any) => {
@@ -128,11 +184,10 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
       [e.target.name]: e.target.value,
     });
   };
-console.log(auth)
+
   const profile = async () => {
     const request = await fetch("/api/user/profile");
     const data = await request.json();
-    console.log(data)
     setAuth(data.user);
     const obRequest = await fetch(`/api/objetive/get/${data.user.id}`, {
       method: "GET",
@@ -140,9 +195,23 @@ console.log(auth)
     const obData: Objetives = await obRequest.json();
     setObjetives(obData.objetives);
     let myTotalMoney: number = 0;
+    let myProgressMoney: number = 0;
+    let myCompleteObjetive: number = 0;
     for (let i: number = 0; i < obData.objetives.length; i++) {
       myTotalMoney += obData.objetives[i].amount;
+      myProgressMoney += obData.objetives[i].progress;
       setStateMoney(myTotalMoney);
+      setStateMoneyComplete(myProgressMoney);
+      if (obData.objetives[i].progress >= obData.objetives[i].amount) {
+        myCompleteObjetive++;
+      }
+      setStateObjetiveComplete(myCompleteObjetive);
+    }
+    const caroucelReq = await fetch("/api/objetive/caroucel");
+    const caroucelData: CaroRequest = await caroucelReq.json();
+    if (caroucelData.status === "success") {
+      setCaroucelState(caroucelData);
+      setCaroucelOb(caroucelData.caroucel[page]);
     }
     setStateObjetive(obData.objetives.length);
     return data.user;
@@ -161,11 +230,26 @@ console.log(auth)
           },
         });
         const data = await response.json();
+        const formData = new FormData();
+        formData.append("file", file);
+        const addImageRequest = await fetch(
+          `/api/objetive/add-image/${data.objetive.id}`,
+          {
+            method: "PUT",
+            body: formData,
+          }
+        );
+        const addImageRes: RequestObjetive = await addImageRequest.json();
 
-        if (data.status === "success") {
+        if (data.status === "success" && !file) {
           setObjetives([...objetives, data.objetive]);
           setFormState(false);
         }
+        if (file && addImageRes.status === "success") {
+          setObjetives([...objetives, addImageRes.objetive]);
+          setFormState(false);
+        }
+        setFile(null);
       } catch (error) {
         console.log(error);
       }
@@ -202,7 +286,7 @@ console.log(auth)
     // Unir las partes con el punto de mil
     return partes.join(".");
   };
-  
+
   const toEditObjetive = async (id: any) => {
     const title: HTMLInputElement | null = document.getElementById(
       "title"
@@ -231,44 +315,65 @@ console.log(auth)
       });
     }
   };
-  
-  const registerUser = async()=>{
-    const name: HTMLInputElement | null = document.getElementById("name") as HTMLInputElement | null;
 
-    const email: HTMLInputElement | null = document.getElementById("email") as HTMLInputElement | null;
+  const registerUser = async () => {
+    const name: HTMLInputElement | null = document.getElementById(
+      "name"
+    ) as HTMLInputElement | null;
 
-    const password: HTMLInputElement | null = document.getElementById("password") as HTMLInputElement | null;
+    const email: HTMLInputElement | null = document.getElementById(
+      "email"
+    ) as HTMLInputElement | null;
 
+    const password: HTMLInputElement | null = document.getElementById(
+      "password"
+    ) as HTMLInputElement | null;
 
-    const confirmPassword: HTMLInputElement | null = document.getElementById("confirmPassword") as HTMLInputElement | null;
+    const confirmPassword: HTMLInputElement | null = document.getElementById(
+      "confirmPassword"
+    ) as HTMLInputElement | null;
 
-
-    if(name?.value && email?.value && password?.value){
+    if (name?.value && email?.value && password?.value) {
       const toRegister: User = {
         email: email?.value,
         name: name?.value,
         password: password?.value,
-      }
+      };
 
-      if(password.value === confirmPassword?.value){
-        const request = await fetch("/api/user/register",{
+      if (password.value === confirmPassword?.value) {
+        const request = await fetch("/api/user/register", {
           method: "POST",
           headers: {
-            "Content-Type": "aplication/json"
+            "Content-Type": "aplication/json",
           },
-          body: JSON.stringify(toRegister)
-        })
+          body: JSON.stringify(toRegister),
+        });
         const data = await request.json();
-        if(data.status === "success") setRegisterMessage(data.status)
-      }else{
-        setRegisterMessage("Las contraseñas no coinciden")
+        if (data.status === "success") setRegisterMessage(data.status);
+      } else {
+        setRegisterMessage("Las contraseñas no coinciden");
       }
-      
-    }else(
-      setRegisterMessage("Rellene todos los campos")
-    )
-    router.push("/page/feed")
-  }
+    } else setRegisterMessage("Rellene todos los campos");
+    router.push("/page/feed");
+  };
+  const logOut = async () => {
+    const request = await fetch("/api/user/logout", {
+      method: "POST",
+      headers: {
+        "Content-Type": "aplication/json",
+      },
+    });
+    const data = await request.json;
+    router.push("/page/login");
+  };
+
+  const getPorcent = (progress: number, amount: number) => {
+    let num: number = (progress / amount) * 100;
+    const porcent = Math.round(num * 100) / 100;
+    return porcent;
+  };
+
+  const caroucel = async () => {};
 
   //#region values
   return (
@@ -312,6 +417,21 @@ console.log(auth)
         registerUser,
         registerMessage,
         setRegisterMessage,
+        logOut,
+        getPorcent,
+        stateMoneyComplete,
+        setStateMoneyComplete,
+        stateObjetiveComplete,
+        setStateObjetiveComplete,
+        caroucelState,
+        setCaroucelState,
+        caroucel,
+        caroucelOb,
+        setCaroucelOb,
+        page,
+        setPage,
+        file,
+        setFile,
       }}
     >
       {children}

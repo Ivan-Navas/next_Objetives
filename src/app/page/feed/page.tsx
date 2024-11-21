@@ -20,6 +20,9 @@ function Feed() {
     profile,
     stateObjetive,
     stateMoney,
+    stateMoneyComplete,
+    stateObjetiveComplete,
+    caroucel
   } = useAppContext();
 
   useEffect(() => {
@@ -42,14 +45,14 @@ function Feed() {
           <div className="flex justify-end ">
             <Stadistic
               title="Dinero total"
-              progress={stadistic.moneyComplete}
+              progress={stateMoneyComplete}
               total={stateMoney}
             />
           </div>
           <div className="flex justify-end ">
             <Stadistic
               title="Todos los objetivos"
-              progress={stadistic.objetivesComplete}
+              progress={stateObjetiveComplete}
               total={stateObjetive}
             />
           </div>
@@ -77,9 +80,11 @@ function Feed() {
               })}
             </>
           ) : (
-            <>
-              <h2>No hay objetivos</h2>
-            </>
+            <div className="w-ful flex items-cemter justify-center col-span-3">
+              <h2 className="text-titles font-roboto font-extrabold ">
+                No hay objetivos
+              </h2>
+            </div>
           )}
         </div>
       </section>
