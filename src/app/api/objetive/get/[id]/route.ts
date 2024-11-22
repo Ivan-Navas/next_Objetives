@@ -3,6 +3,8 @@ import { NextResponse } from "next/server";
 
 export const GET = async (request: any, { params }: any) => {
   const req = await request;
+  const test = process.env.TEST;
+  console.log(test)
   const user = await prisma.user.findUnique({
     where: {
       id: parseInt(String(params.id)),
