@@ -112,7 +112,7 @@ const AppContext = createContext<ContextType>({
 
 export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
   //#region states/variables
-  const apiUrl = process.env.NEXT_PUBLIC_LOCAL_API;
+  const apiUrl = process.env.NEXT_PUBLIC_VERCEL_API;
   const router = useRouter();
   const [objetives, setObjetives] = useState<ObjetiveInterface[]>([]);
   const [editObjetive, setEditObjetive] = useState<ObjetiveInterface>({
