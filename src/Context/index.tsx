@@ -217,6 +217,7 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
     setStateObjetive(obData.objetives.length);
     return data.user;
   };
+
   const createObjetive = async () => {
     if (newObjetive.title !== "") {
       try {
@@ -354,6 +355,7 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
     } else setRegisterMessage("Rellene todos los campos");
     router.push("/feed");
   };
+
   const logOut = async () => {
     const request = await fetch(`${apiUrl}/user/logout`, {
       method: "POST",
