@@ -15,7 +15,7 @@ import {
   Caroucel,
   CaroucelOb,
   CaroRequest,
-  Caroucel2,
+  //Caroucel2,
 } from "@/interface/caroucel";
 
 const AppContext = createContext<ContextType>({
@@ -157,9 +157,9 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
     name: "",
     password: "",
   });
-  const [caroucelState2, setCaroucelState2] = useState<Caroucel>({
-    card: [],
-  });
+  //const [caroucelState2, setCaroucelState2] = useState<Caroucel>({
+   // card: [],
+  //});
   const [caroucelState, setCaroucelState] = useState<CaroRequest>({
     status: "",
     message: "",
@@ -271,7 +271,7 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
       body: JSON.stringify(credentials),
     });
     const data = await request.json();
-    router.push("/page/feed");
+    router.push("/feed");
   };
 
   const getProfile = async (e: any) => {
@@ -279,13 +279,10 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
     const request = await fetch(`${apiUrl}/user/profile`);
     const data = await request.json();
   };
-  const addPoint = (numero: number): string => {
-    // Convertir el número a una cadena y dividirlo en partes por cada tres dígitos
-    const partes = numero.toString().split(".");
-    partes[0] = partes[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 
-    // Unir las partes con el punto de mil
-    return partes.join(".");
+  const addPoint = (numero: number): string => {
+    const point = numero.toLocaleString();
+    return point;
   };
 
   const toEditObjetive = async (id: any) => {
@@ -355,7 +352,7 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
         setRegisterMessage("Las contraseñas no coinciden");
       }
     } else setRegisterMessage("Rellene todos los campos");
-    router.push("/page/feed");
+    router.push("/feed");
   };
   const logOut = async () => {
     const request = await fetch(`${apiUrl}/user/logout`, {
@@ -364,8 +361,10 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
         "Content-Type": "aplication/json",
       },
     });
-    const data = await request.json;
-    router.push("/page/login");
+    const data = await request.json();
+    if(data.status === "success"){
+      router.push("/login");
+    }
   };
 
   const getPorcent = (progress: number, amount: number) => {

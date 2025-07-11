@@ -54,7 +54,7 @@ function Login() {
           <div className="flex">
             <h6 className="font-roboto text-10">¿No tienes cuenta?</h6>
             <Link
-              href="/page/register"
+              href="/register"
               className=" text-titles font-roboto text-10"
             >
               Crea una.

@@ -21,7 +21,7 @@ function Register() {
   return (
     <div className="w-screen h-screen flex justify-center items-center">
       <form className="w-448 h-600 rounded-16 bg-back px-51 relative">
-        <Link href="/page/login" className="absolute top-2 left-2">
+        <Link href="/login" className="absolute top-2 left-2">
           <BiArrowBack className="text-titles text-20" />
         </Link>
         <h2 className=" text-titles text-40 text-center font-bold font-roboto mt-middle">
