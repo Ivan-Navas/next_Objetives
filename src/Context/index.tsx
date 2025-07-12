@@ -263,16 +263,27 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
       ...credentials,
       [e.target.name]: e.target.value,
     });
+    console.log(credentials);
   };
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    const request = await fetch(`${apiUrl}/user/login`, {
-      method: "POST",
-      body: JSON.stringify(credentials),
-    });
-    const data = await request.json();
-    router.push("/feed");
+    try {
+      const request = await fetch("/api/user/login", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "aplication/json",
+        },
+        body: JSON.stringify(credentials),
+      });
+      const data = await request.json();
+      if(data.status === "success"){
+        router.push("/feed");
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const getProfile = async (e: any) => {
