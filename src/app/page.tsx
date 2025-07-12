@@ -1,6 +1,6 @@
 "use client";
 
-import Feed from "./page/feed/page";
+import Feed from "./feed/page";
 
 export default function Home() {
   return (
