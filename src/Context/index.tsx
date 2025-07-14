@@ -362,13 +362,14 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
   };
 
   const logOut = async () => {
-    const request = await fetch(`${apiUrl}/user/logout`, {
+    const request = await fetch("/api/user/logout", {
       method: "POST",
       headers: {
         "Content-Type": "aplication/json",
       },
     });
     const data = await request.json();
+    console.log(data);
     if(data.status === "success"){
       router.push("/login");
     }
