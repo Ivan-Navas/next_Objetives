@@ -189,10 +189,10 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
   };
 
   const profile = async () => {
-    const request = await fetch(`${apiUrl}/user/profile`);
+    const request = await fetch("/api/user/profile");
     const data = await request.json();
     setAuth(data.user);
-    const obRequest = await fetch(`${apiUrl}/objetive/get/${data.user.id}`, {
+    const obRequest = await fetch(`/api/objetive/get/${data.user.id}`, {
       method: "GET",
     });
     const obData: Objetives = await obRequest.json();
@@ -210,7 +210,7 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
       }
       setStateObjetiveComplete(myCompleteObjetive);
     }
-    const caroucelReq = await fetch(`${apiUrl}/objetive/caroucel`);
+    const caroucelReq = await fetch("/api/objetive/caroucel");
     const caroucelData: CaroRequest = await caroucelReq.json();
     if (caroucelData.status === "success") {
       setCaroucelState(caroucelData);
@@ -223,7 +223,7 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
   const createObjetive = async () => {
     if (newObjetive.title !== "") {
       try {
-        const response = await fetch(`${apiUrl}/objetive/create`, {
+        const response = await fetch("/api/objetive/create", {
           method: "POST",
           body: JSON.stringify({
             title: newObjetive.title,
@@ -237,7 +237,7 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
         const formData = new FormData();
         formData.append("file", file);
         const addImageRequest = await fetch(
-          `${apiUrl}/objetive/add-image/${data.objetive.id}`,
+          `/api/objetive/add-image/${data.objetive.id}`,
           {
             method: "PUT",
             body: formData,
