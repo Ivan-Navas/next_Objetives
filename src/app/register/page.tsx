@@ -16,6 +16,7 @@ function Register() {
     setRegisterConfirmPassword,
     registerUser,
     registerMessage,
+    handleRegisterChange,
   } = useAppContext();
 
   return (
@@ -34,16 +35,32 @@ function Register() {
         {registerMessage === "success" && (
           <h2 className="text-titles text-center">Iniciando Sesion...</h2>
         )}
-        <Input type="text" placeholder="Nombre" id="name" required />
+        <Input 
+          type="text" 
+          name="name"
+          placeholder="Nombre" 
+          id="name"  
+          required 
+          onChange={handleRegisterChange}
+        />
         <div className="mt-12">
-          <Input type="email" placeholder="Correo" required id="email" />
+          <Input 
+            type="email" 
+            name="email"
+            placeholder="Correo" 
+            required 
+            id="email" 
+            onChange={handleRegisterChange}
+          />
         </div>
         <div className="flex relative mt-12 mb-2">
           <Input
             placeholder="Contraseña"
+            name="password"
             id="password"
             type={registerPassword === true ? "password" : "text"}
             required
+            onChange={handleRegisterChange}
           />
           <button
             className="absolute top-0 right-0 "
@@ -59,9 +76,11 @@ function Register() {
         <div className="flex relative mt-12 mb-2">
           <Input
             placeholder="Confirmar contraseña"
+            name="confirmPassword"
             id="confirmPassword"
             type={registerConfirmPassword === true ? "password" : "text"}
             required
+            onChange={handleRegisterChange}
           />
           <button
             className="absolute top-0 right-0 "
@@ -79,12 +98,8 @@ function Register() {
             registerUser();
           }}
         >
-          {" "}
-          Registrar{" "}
+          Registrar
         </Button>
-        {registerMessage.length > 0 && registerMessage !== "success" && (
-          <h2 className="text-red-600 font-semibold">*{registerMessage}</h2>
-        )}
       </form>
     </div>
   );

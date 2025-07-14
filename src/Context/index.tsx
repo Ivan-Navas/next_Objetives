@@ -6,7 +6,7 @@ import {
 } from "@/interface/objetive";
 import { ContextType } from "@/types/indexTypes";
 import { Stadistic as StadisticInterface } from "@/interface/stadistic";
-import { Auth as AuthInterface } from "@/interface/auth";
+import { Auth as AuthInterface, UserToRegister } from "@/interface/auth";
 import { Credential } from "@/interface/login";
 import User from "@/interface/user";
 import { Objetives } from "@/interface/objetives";
@@ -49,6 +49,8 @@ const AppContext = createContext<ContextType>({
   createObjetive: () => {},
   handleSubmit: () => {},
   handleChange: () => {},
+  handleRegisterChange: () => {},
+  handleEditChange: () => {},
   loginPassword: true,
   setLoginPassword: () => {},
   credentials: {
@@ -152,10 +154,11 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
     email: "",
     password: "",
   });
-  const [userToRegister, SetUserToRegister] = useState<User>({
+  const [userToRegister, SetUserToRegister] = useState<UserToRegister>({
     email: "",
     name: "",
     password: "",
+    confirmPassword: "",
   });
   //const [caroucelState2, setCaroucelState2] = useState<Caroucel>({
    // card: [],
@@ -165,7 +168,6 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
     message: "",
     caroucel: [],
   });
-
   const [caroucelOb, setCaroucelOb] = useState<CaroucelOb>({
     title: "",
     page: 0,
@@ -263,6 +265,20 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
       ...credentials,
       [e.target.name]: e.target.value,
     });
+  };
+
+  const handleRegisterChange = (e: any) => {
+    SetUserToRegister({
+      ...userToRegister,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleEditChange = (e: any) => {
+    setCredentials({
+      ...credentials,
+      [e.target.name]: e.target.value,
+    });
     console.log(credentials);
   };
 
@@ -327,44 +343,22 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
   };
 
   const registerUser = async () => {
-    const name: HTMLInputElement | null = document.getElementById(
-      "name"
-    ) as HTMLInputElement | null;
-
-    const email: HTMLInputElement | null = document.getElementById(
-      "email"
-    ) as HTMLInputElement | null;
-
-    const password: HTMLInputElement | null = document.getElementById(
-      "password"
-    ) as HTMLInputElement | null;
-
-    const confirmPassword: HTMLInputElement | null = document.getElementById(
-      "confirmPassword"
-    ) as HTMLInputElement | null;
-
-    if (name?.value && email?.value && password?.value) {
-      const toRegister: User = {
-        email: email?.value,
-        name: name?.value,
-        password: password?.value,
-      };
-
-      if (password.value === confirmPassword?.value) {
-        const request = await fetch(`${apiUrl}/user/register`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "aplication/json",
-          },
-          body: JSON.stringify(toRegister),
-        });
-        const data = await request.json();
-        if (data.status === "success") setRegisterMessage(data.status);
-      } else {
-        setRegisterMessage("Las contraseñas no coinciden");
+    try {
+      const request = await fetch("/api/user/register", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "aplication/json",
+        },
+        body: JSON.stringify(userToRegister),
+      })
+      const data = await request.json();
+      if(data.status === "success"){
+        router.push("/feed");
       }
-    } else setRegisterMessage("Rellene todos los campos");
-    router.push("/feed");
+    } catch (error) {
+      console.error(error);  
+    }
   };
 
   const logOut = async () => {
@@ -408,6 +402,8 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
         profile,
         createObjetive,
         handleChange,
+        handleRegisterChange,
+        handleEditChange,
         handleSubmit,
         loginPassword,
         setLoginPassword,
