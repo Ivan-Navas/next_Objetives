@@ -1,6 +1,7 @@
 import { prisma } from "@/libs/prisma";
 import { NextRequest, NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
 
 export const POST = async (req: NextRequest) => {
   try {
@@ -21,8 +22,15 @@ export const POST = async (req: NextRequest) => {
         email: true,
         password: true,
       }
-    })
-    if(!userExist || password !== userExist.password){
+    });
+    if(!userExist){
+      return NextResponse.json({
+        status: "error",
+        message: "Correo o contraseña incorrecta"
+      })
+    }
+    const passwordCompare = await bcrypt.compare(password, userExist?.password);
+    if(!passwordCompare){
       return NextResponse.json({
         status: "error",
         message: "Correo o contraseña incorrecta"
