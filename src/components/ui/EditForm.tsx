@@ -5,7 +5,7 @@ import { BiImageAdd } from "react-icons/bi";
 import React from "react";
 
 export function EditForm() {
-  const { editObjetive, setEditState, toEditObjetive, handleObjetive } =
+  const { editObjetive, setEditState, toEditObjetive, handleEditObjetiveChange } =
     useAppContext();
   return (
     <div className="w-screen h-screen fixed top-0 left-0 flex items-center justify-center bg-semi">
@@ -30,7 +30,7 @@ export function EditForm() {
             placeholder="Objetivo"
             autoFocus
             required
-            onChange={handleObjetive}
+            onChange={handleEditObjetiveChange}
           />
           <Input
             id="amount"
@@ -38,7 +38,7 @@ export function EditForm() {
             defaultValue={editObjetive.amount}
             placeholder="Cantidad"
             required
-            onChange={handleObjetive}
+            onChange={handleEditObjetiveChange}
           />
           <Input
             id="progress"
@@ -46,7 +46,7 @@ export function EditForm() {
             defaultValue={editObjetive.progress}
             placeholder="Progreso"
             required
-            onChange={handleObjetive}
+            onChange={handleEditObjetiveChange}
           />
           <div className="bg-transparent relative cursor-pointer">
             <input

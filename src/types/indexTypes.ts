@@ -24,7 +24,7 @@ export type ContextType = {
   handleSubmit: (e: any) => void;
   handleChange: (e: any) => void;
   handleRegisterChange: (e: any) => void;
-  handleEditChange: (e: any) => void;
+  handleEditObjetiveChange: (e: any) => void;
   loginPassword: boolean;
   setLoginPassword: (loginPassword: boolean) => void;
   credentials: Credential;

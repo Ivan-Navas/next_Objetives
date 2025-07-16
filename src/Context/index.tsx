@@ -50,7 +50,7 @@ const AppContext = createContext<ContextType>({
   handleSubmit: () => {},
   handleChange: () => {},
   handleRegisterChange: () => {},
-  handleEditChange: () => {},
+  handleEditObjetiveChange: () => {},
   loginPassword: true,
   setLoginPassword: () => {},
   credentials: {
@@ -78,6 +78,7 @@ const AppContext = createContext<ContextType>({
     email: "",
     name: "",
     password: "",
+    confirmPassword: "",
   },
   setUserToRegister: () => {},
   registerUser: () => {},
@@ -274,9 +275,9 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
     });
   };
 
-  const handleEditChange = (e: any) => {
-    setCredentials({
-      ...credentials,
+  const handleEditObjetiveChange = (e: any) => {
+    setEditObjetive({
+      ...editObjetive,
       [e.target.name]: e.target.value,
     });
   };
@@ -312,32 +313,20 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
     return point;
   };
 
-  const toEditObjetive = async (id: any) => {
-    const title: HTMLInputElement | null = document.getElementById(
-      "title"
-    ) as HTMLInputElement | null;
-    const amount: HTMLInputElement | null = document.getElementById(
-      "amount"
-    ) as HTMLInputElement | null;
-    const progress: HTMLInputElement | null = document.getElementById(
-      "progress"
-    ) as HTMLInputElement | null;
-
-    if (title && amount && progress) {
-      const request = await fetch(`${apiUrl}/objetive/edit/${id}`, {
+  const toEditObjetive = async (id: number) => {
+    if (editObjetive) {
+      const request = await fetch(`/api/objetive/edit/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          title: title.value,
-          amount: amount.value,
-          progress: progress.value,
-        }),
-      }).finally(() => {
+        body: JSON.stringify(editObjetive),
+      })
+      const data = await request.json();
+      if(data.status === "success"){
+        setEditState(false)
         profile();
-        setEditState(false);
-      });
+      }
     }
   };
 
@@ -403,7 +392,7 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
         createObjetive,
         handleChange,
         handleRegisterChange,
-        handleEditChange,
+        handleEditObjetiveChange,
         handleSubmit,
         loginPassword,
         setLoginPassword,
