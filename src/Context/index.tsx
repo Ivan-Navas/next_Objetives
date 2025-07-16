@@ -79,7 +79,7 @@ const AppContext = createContext<ContextType>({
     name: "",
     password: "",
   },
-  SetUserToRegister: () => {},
+  setUserToRegister: () => {},
   registerUser: () => {},
   registerMessage: "",
   setRegisterMessage: () => {},
@@ -154,7 +154,7 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
     email: "",
     password: "",
   });
-  const [userToRegister, SetUserToRegister] = useState<UserToRegister>({
+  const [userToRegister, setUserToRegister] = useState<UserToRegister>({
     email: "",
     name: "",
     password: "",
@@ -268,7 +268,7 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
   };
 
   const handleRegisterChange = (e: any) => {
-    SetUserToRegister({
+    setUserToRegister({
       ...userToRegister,
       [e.target.name]: e.target.value,
     });
@@ -279,7 +279,6 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
       ...credentials,
       [e.target.name]: e.target.value,
     });
-    console.log(credentials);
   };
 
   const handleSubmit = async (e: any) => {
@@ -423,7 +422,7 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
         setEditObjetive,
         toEditObjetive,
         userToRegister,
-        SetUserToRegister,
+        setUserToRegister,
         registerUser,
         registerMessage,
         setRegisterMessage,
