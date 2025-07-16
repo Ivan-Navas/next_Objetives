@@ -294,7 +294,7 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
       });
       const data = await request.json();
       if(data.status === "success"){
-        router.push("/feed");
+        router.push("/");
       }
     } catch (error) {
       console.error(error);
@@ -353,7 +353,7 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
       })
       const data = await request.json();
       if(data.status === "success"){
-        router.push("/feed");
+        router.push("/");
       }
     } catch (error) {
       console.error(error);  
