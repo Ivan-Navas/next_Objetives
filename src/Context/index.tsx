@@ -55,10 +55,9 @@ const AppContext = createContext<ContextType>({
   setLoginPassword: () => {},
   credentials: {
     email: "",
-    password: "",
+      password: "",
   },
   setCredentials: () => {},
-  getProfile: () => {},
   registerPassword: true,
   setRegisterPassword: () => {},
   registerConfirmPassword: true,
@@ -115,7 +114,6 @@ const AppContext = createContext<ContextType>({
 
 export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
   //#region states/variables
-  const apiUrl = process.env.NEXT_PUBLIC_LOCAL_API;
   const router = useRouter();
   const [objetives, setObjetives] = useState<ObjetiveInterface[]>([]);
   const [editObjetive, setEditObjetive] = useState<ObjetiveInterface>({
@@ -302,12 +300,6 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  const getProfile = async (e: any) => {
-    e.preventDefault();
-    const request = await fetch(`${apiUrl}/user/profile`);
-    const data = await request.json();
-  };
-
   const addPoint = (numero: number): string => {
     const point = numero.toLocaleString();
     return point;
@@ -398,7 +390,6 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
         setLoginPassword,
         credentials,
         setCredentials,
-        getProfile,
         registerPassword,
         setRegisterPassword,
         registerConfirmPassword,

@@ -29,7 +29,6 @@ export type ContextType = {
   setLoginPassword: (loginPassword: boolean) => void;
   credentials: Credential;
   setCredentials: (credential: Credential) => void;
-  getProfile: (e: any) => void;
   registerPassword: boolean;
   setRegisterPassword: (registerPassword: boolean) => void;
   registerConfirmPassword: boolean;
