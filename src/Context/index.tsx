@@ -190,33 +190,36 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
   const profile = async () => {
     const request = await fetch("/api/user/profile");
     const data = await request.json();
-    setAuth(data.user);
-    const obRequest = await fetch(`/api/objetive/get/${data.user.id}`, {
-      method: "GET",
-    });
-    const obData: Objetives = await obRequest.json();
-    setObjetives(obData.objetives);
-    let myTotalMoney: number = 0;
-    let myProgressMoney: number = 0;
-    let myCompleteObjetive: number = 0;
-    for (let i: number = 0; i < obData.objetives.length; i++) {
-      myTotalMoney += obData.objetives[i].amount;
-      myProgressMoney += obData.objetives[i].progress;
-      setStateMoney(myTotalMoney);
-      setStateMoneyComplete(myProgressMoney);
-      if (obData.objetives[i].progress >= obData.objetives[i].amount) {
-        myCompleteObjetive++;
+    console.log(data)
+    if(data.status === "success"){
+      setAuth(data.user);
+      const obRequest = await fetch(`/api/objetive/get/${data.user.id}`, {
+        method: "GET",
+      });
+      const obData: Objetives = await obRequest.json();
+      setObjetives(obData.objetives);
+      let myTotalMoney: number = 0;
+      let myProgressMoney: number = 0;
+      let myCompleteObjetive: number = 0;
+      for (let i: number = 0; i < obData.objetives.length; i++) {
+        myTotalMoney += obData.objetives[i].amount;
+        myProgressMoney += obData.objetives[i].progress;
+        setStateMoney(myTotalMoney);
+        setStateMoneyComplete(myProgressMoney);
+        if (obData.objetives[i].progress >= obData.objetives[i].amount) {
+          myCompleteObjetive++;
       }
-      setStateObjetiveComplete(myCompleteObjetive);
+        setStateObjetiveComplete(myCompleteObjetive);
+      }
+      const caroucelReq = await fetch("/api/objetive/caroucel");
+      const caroucelData: CaroRequest = await caroucelReq.json();
+      if (caroucelData.status === "success") {
+        setCaroucelState(caroucelData);
+        setCaroucelOb(caroucelData.caroucel[page]);
+      }
+      setStateObjetive(obData.objetives.length);
+      return data.user;
     }
-    const caroucelReq = await fetch("/api/objetive/caroucel");
-    const caroucelData: CaroRequest = await caroucelReq.json();
-    if (caroucelData.status === "success") {
-      setCaroucelState(caroucelData);
-      setCaroucelOb(caroucelData.caroucel[page]);
-    }
-    setStateObjetive(obData.objetives.length);
-    return data.user;
   };
 
   const createObjetive = async () => {

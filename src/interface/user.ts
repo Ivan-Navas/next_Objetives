@@ -4,3 +4,9 @@ export default interface User {
   email: string;
   password: string;
 }
+
+export interface TokenInterface {
+  id: number,
+  name: string,
+  email: string,
+}
