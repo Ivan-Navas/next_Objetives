@@ -24,8 +24,8 @@ function Stadistic(props: Props) {
         {props.title}
       </h2>
       <div className="w-full relative flex items-center justify-center">
-        <div>
-          <svg>
+        <div className="py-[10px]">
+          <svg width="120" height="120" viewBox="0 0 120 120">
             <defs>
               <linearGradient id="linearS">
                 <stop offset="0%" stopColor="#fff" stopOpacity="0.2" />
@@ -34,26 +34,30 @@ function Stadistic(props: Props) {
               </linearGradient>
             </defs>
             <circle
-              className="fill-none stroke-font stroke-10 origin-top  flex items-center justify-center"
-              r={"55"}
-              cx={"50%"}
-              cy={"50%"}
-              pathLength={100}
+              r="55"
+              cx="60"
+              cy="60"
+              pathLength="100"
+              className="fill-none stroke-gray-700 stroke-[10] flex items-center justify-center"
             />
-            <circle
-              className="fill-none  stroke-10 flex items-center  justify-center"
-              style={{
-                strokeDasharray:
-                  getPorcent(props.progress, props.total) + ",100",
-                transform: "rotate(-90deg)",
-                transformOrigin: "50%",
-                stroke: `url(#linearS)`,
-              }}
-              r={"55"}
-              cx={"50%"}
-              cy={"50%"}
-              pathLength={100}
-            />
+<circle
+    r="55"
+    cx="60"
+    cy="60"
+    pathLength="100"
+    className="fill-none stroke-[10] flex items-center justify-center"
+    strokeLinecap="round"
+    style={{
+      strokeDasharray:
+        props.total > 0
+          ? `${getPorcent(props.progress, props.total)},100`
+          : "0,100",
+      transform: "rotate(-90deg)",
+      transformOrigin: "50% 50%",
+      stroke: "url(#linearS)",
+      transition: "stroke-dasharray 0.5s ease-out",
+    }}
+  />
           </svg>
         </div>
         <p className="font-extrabold text-26 absolute text-center font-roboto ">
