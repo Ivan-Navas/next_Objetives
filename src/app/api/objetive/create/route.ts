@@ -1,38 +1,43 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/libs/prisma";
-import { cookies } from "next/headers";
-const { verify } = require("jsonwebtoken");
+import jwt from "jsonwebtoken";
+import { TokenInterface } from "@/interface/user";
 
-interface User {
-  name: string;
-  id: number;
-  email: string;
-}
-interface Objetive {
-  title: string;
-  user: User;
-  amount: number;
-  image?: string;
-  userId: number;
-  progress: number;
-}
-
-export const POST = async (request: any) => {
-  const data = await request.json();
-  const token = cookies()?.get("token");
-  const user = await verify(token?.value, process.env.SECRET_VALUE);
-
+export const POST = async (req: NextRequest) => {
   try {
-    if (user && data.title && data.amount) {
+    const data = await req.json();
+    const token = req.cookies.get("token")?.value;
+    if(!token){
+      return NextResponse.json({
+        status: "error",
+        message: "No se pudo autenticar",
+      })
+    }
+    const verify = jwt.verify(token, process.env.SECRET_VALUE!);
+    const userId = (verify as TokenInterface).id;
+    const userExist = await prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
+      select: {
+        id: true,
+      }
+    })
+    if(!userExist){
+      return NextResponse.json({
+        status: "error",
+        message: "El usuario no existe",
+      })
+    }
+    if (userId && data.title && data.amount) {
       const objetiveCreate = await prisma.objetive.create({
         data: {
           title: data.title,
           amount: parseInt(String(await data.amount)), //* el amount se recibe como cadena(string)
-          userId: user.id,
+          userId: userId,
           progress: 0,
         },
       });
-
       return NextResponse.json({
         status: "success",
         message: "Objetivo creado con exito",
