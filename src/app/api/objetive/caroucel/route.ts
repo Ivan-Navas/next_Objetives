@@ -1,7 +1,7 @@
-import { NextResponse } from "next/server";
-import { cookies } from "next/headers";
+import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/libs/prisma";
-const { verify } = require("jsonwebtoken");
+import jwt from "jsonwebtoken";
+import { TokenInterface } from "@/interface/user";
 
 const getPorcent = (progress: number, amount: number) => {
   let num: number = (progress / amount) * 100;
@@ -9,13 +9,33 @@ const getPorcent = (progress: number, amount: number) => {
   return porcent;
 };
 
-export const GET = async (request: any) => {
-  const token = cookies().get("token");
-  const user = await verify(token?.value, process.env.SECRET_VALUE);
-
+export const GET = async (req: NextRequest) => {
+  const token = req.cookies.get("token")?.value;
+  if(!token){
+    return NextResponse.json({
+      status: "error",
+      messge: "No se pudo autenticar",
+    })
+  }
+  const verify = jwt.verify(token, process.env.SECRET_VALUE!);
+  const userId = (verify as TokenInterface).id;
+  const userExist = prisma.user.findUnique({
+    where: {
+      id: userId,
+    },
+    select: {
+      id: true,
+    }
+  })
+  if(!userExist){
+    return NextResponse.json({
+      status: "error",
+      message: "El usuario no existe",
+    })
+  }
   const objetives = await prisma.objetive.findMany({
     where: {
-      userId: user.id,
+      userId: userId,
     },
   });
   if (objetives.length > 0) {
