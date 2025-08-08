@@ -33,36 +33,40 @@ const CaroucelCard = (props: Props) => {
                     %
                   </h2>
                   <div className="grid relative items-center margin-0">
-                    <svg className="w-70 h-70  ">
-                      <defs>
-                        <linearGradient id="linear">
-                          <stop
-                            offset="0%"
-                            stopColor="#fff"
-                            stopOpacity="0.2"
-                          />
-                          <stop offset="10%" stopColor="#87E5D3" />
-                          <stop offset="70%" stopColor="#BAACDD" />
-                        </linearGradient>
-                      </defs>
-                      <circle
-                        r={30}
-                        cx={"50%"}
-                        cy={"50%"}
-                        pathLength={100}
-                        className="fill-none  stroke-10 flex items-center  justify-center absolute top-0 r-0"
-                        style={{
-                          strokeDasharray:
-                            getPorcent(
-                              props.objetive.objetive.progress,
-                              props.objetive.objetive.amount
-                            ) + ",100",
-                          transform: "rotate(-90deg)",
-                          transformOrigin: "50%",
-                          stroke: "url(#linear)",
-                        }}
-                      />
-                    </svg>
+          <svg width="70" height="70" viewBox="0 0 70 70 ">
+            <defs>
+              <linearGradient id="linearS">
+                <stop offset="0%" stopColor="#fff" stopOpacity="0.2" />
+                <stop offset="10%" stopColor="#87E5D3" />
+                <stop offset="50%" stopColor="#BAACDD" />
+              </linearGradient>
+            </defs>
+            <circle
+              r="30"
+              cx="35"
+              cy="35"
+              pathLength="100"
+              className="fill-none stroke-gray-700 stroke-[10] flex items-center justify-center"
+            />
+            <circle
+              r="30"
+              cx="35"
+              cy="35"
+              pathLength="100"
+              className="fill-none stroke-[10] flex items-center justify-center"
+              strokeLinecap="round"
+              style={{
+                strokeDasharray:
+                  props.objetive.objetive.amount > 0
+                  ? `${getPorcent(props.objetive.objetive.progress, props.objetive.objetive.amount)},100`
+                  : "0,100",
+                transform: "rotate(-90deg)",
+                transformOrigin: "50% 50%",
+                stroke: "url(#linearS)",
+                transition: "stroke-dasharray 0.5s ease-out",
+              }}
+            />
+          </svg>
                     <img
                       src={props.objetive.objetive.image}
                       alt="objetive_icon"
