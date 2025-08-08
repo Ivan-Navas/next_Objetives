@@ -304,8 +304,8 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
   };
 
   const addPoint = (numero: number): string => {
-    const point = numero.toLocaleString();
-    return point;
+    const pointNumber = numero.toLocaleString("de-DE", { minimumFractionDigits: 0 });
+    return pointNumber;
   };
 
   const toEditObjetive = async (id: number) => {
