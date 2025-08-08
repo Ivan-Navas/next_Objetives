@@ -49,7 +49,7 @@ function Objetive(props: Props) {
           {getPorcent(props.progress, props.amount)}%
         </h2>
         <div className="w-full relative flex items-center justify-center">
-          <svg width="110" height="110" viewBox="0 0 110 110 border">
+          <svg width="110" height="110" viewBox="0 0 110 110">
             <defs>
               <linearGradient id="linearS">
                 <stop offset="0%" stopColor="#fff" stopOpacity="0.2" />
