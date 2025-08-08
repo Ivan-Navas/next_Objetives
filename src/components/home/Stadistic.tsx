@@ -40,24 +40,24 @@ function Stadistic(props: Props) {
               pathLength="100"
               className="fill-none stroke-gray-700 stroke-[10] flex items-center justify-center"
             />
-<circle
-    r="55"
-    cx="60"
-    cy="60"
-    pathLength="100"
-    className="fill-none stroke-[10] flex items-center justify-center"
-    strokeLinecap="round"
-    style={{
-      strokeDasharray:
-        props.total > 0
-          ? `${getPorcent(props.progress, props.total)},100`
-          : "0,100",
-      transform: "rotate(-90deg)",
-      transformOrigin: "50% 50%",
-      stroke: "url(#linearS)",
-      transition: "stroke-dasharray 0.5s ease-out",
-    }}
-  />
+            <circle
+              r="55"
+              cx="60"
+              cy="60"
+              pathLength="100"
+              className="fill-none stroke-[10] flex items-center justify-center"
+              strokeLinecap="round"
+              style={{
+                strokeDasharray:
+                  props.total > 0
+                  ? `${getPorcent(props.progress, props.total)},100`
+                  : "0,100",
+                transform: "rotate(-90deg)",
+                transformOrigin: "50% 50%",
+                stroke: "url(#linearS)",
+                transition: "stroke-dasharray 0.5s ease-out",
+              }}
+            />
           </svg>
         </div>
         <p className="font-extrabold text-26 absolute text-center font-roboto ">
