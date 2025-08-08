@@ -32,7 +32,7 @@ function Login() {
           required
           onChange={handleChange}
         />
-        <div className="flex relative mt-12 mb-2">
+        <div className="flex relative mt-[48px] mb-2">
           <Input
             placeholder="Contraseña"
             type={loginPassword === true ? "password" : "text"}

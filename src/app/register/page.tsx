@@ -43,7 +43,7 @@ function Register() {
           required 
           onChange={handleRegisterChange}
         />
-        <div className="mt-12">
+        <div className="mt-[48px]">
           <Input 
             type="email" 
             name="email"
@@ -53,7 +53,7 @@ function Register() {
             onChange={handleRegisterChange}
           />
         </div>
-        <div className="flex relative mt-12 mb-2">
+        <div className="flex relative mt-[48px]">
           <Input
             placeholder="Contraseña"
             name="password"
@@ -73,7 +73,7 @@ function Register() {
           </button>
         </div>
 
-        <div className="flex relative mt-12 mb-2">
+        <div className="flex relative mt-[48px]">
           <Input
             placeholder="Confirmar contraseña"
             name="confirmPassword"
@@ -93,6 +93,7 @@ function Register() {
           </button>
         </div>
         <Button
+          className="w-full h-[32px] bg-[#C7F52D] rounded-16 mt-[33px] text-20 text-[#2f2f2f] font-extrabold"
           onClick={(e: any) => {
             e.preventDefault();
             registerUser();

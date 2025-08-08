@@ -16,7 +16,7 @@ function Logo() {
       />
       <div className="w-full flex justify-center">
         <h2 className="font-extrabold text-30 text-titles text-center font-roboto">
-          Gestor de ahorros
+          Oinc: Gestor de ahorros
         </h2>
       </div>
     </>
