@@ -21,7 +21,7 @@ export const POST = async (req: NextRequest) => {
     if (userExist) {
       return NextResponse.json({
         status: "error",
-        mesagge: "El usuario ya existe",
+        message: "El usuario ya existe",
       });
     } const bcryptPassword = await bcrypt.hash(password, hash);
     const userSaved = await prisma.user.create({
