@@ -6,6 +6,7 @@ import Link from "next/link";
 import { BiArrowBack } from "react-icons/bi";
 import { Title } from "@/components/ui/Title";
 import { useAppContext } from "@/Context";
+import Image from "next/image";
 
 function Register() {
   //TODO(Ramiro) add register function
@@ -17,6 +18,7 @@ function Register() {
     registerUser,
     registerMessage,
     handleRegisterChange,
+    registerLoading,
   } = useAppContext();
 
   return (
@@ -32,9 +34,7 @@ function Register() {
           <img src={logo} alt="logo_image" className="w-80 h-80 text-center" />
         </div>
         <Title />
-        {registerMessage === "success" && (
-          <h2 className="text-titles text-center">Iniciando Sesion...</h2>
-        )}
+          <h2 className="text-titles text-center">{registerMessage}</h2>
         <Input 
           type="text" 
           name="name"
@@ -93,13 +93,21 @@ function Register() {
           </button>
         </div>
         <Button
-          className="w-full h-[32px] bg-[#C7F52D] rounded-16 mt-[33px] text-20 text-[#2f2f2f] font-extrabold"
+          className="w-full h-[32px] bg-[#C7F52D] flex justify-center rounded-16 mt-[33px] text-20 text-[#2f2f2f] font-extrabold"
           onClick={(e: any) => {
             e.preventDefault();
             registerUser();
           }}
-        >
-          Registrar
+        > 
+          {registerLoading ?
+            <Image 
+              width={30}
+              height={30} 
+              src={"https://res.cloudinary.com/ivannavas/image/upload/v1755621258/Oinc/iconos/tube-spinner_cxc0cq.svg"} 
+              alt="loginLoading" 
+            />: 
+            <>Registrar</>
+          }
         </Button>
       </form>
     </div>

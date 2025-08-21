@@ -110,6 +110,12 @@ const AppContext = createContext<ContextType>({
   setPage: () => {},
   file: "",
   setFile: () => {},
+  loginMessage: "",
+  setLoginMessage: () => {},
+  loginLoading: false,
+  setLoginLoading: () => {},
+  registerLoading: false,
+  setRegisterLoading: () => {},
 });
 
 export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
@@ -178,6 +184,9 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
   });
   const [page, setPage] = useState<number>(0);
   const [file, setFile] = useState<any>(null);
+  const [loginMessage, setLoginMessage] = useState<string>("");
+  const [loginLoading, setLoginLoading] = useState<boolean>(false);
+  const [registerLoading, setRegisterLoading] = useState<boolean>(false);
 
   //#region functions
   const handleObjetive = (e: any) => {
@@ -285,6 +294,7 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
+    setLoginLoading(true);
     try {
       const request = await fetch("/api/user/login", {
         method: "POST",
@@ -295,12 +305,14 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
         body: JSON.stringify(credentials),
       });
       const data = await request.json();
+      setLoginMessage(data.message);
       if(data.status === "success"){
         router.push("/");
       }
     } catch (error) {
       console.error(error);
     }
+    setLoginLoading(false);
   };
 
   const addPoint = (numero: number): string => {
@@ -326,6 +338,7 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
   };
 
   const registerUser = async () => {
+    setRegisterLoading(true);
     try {
       const request = await fetch("/api/user/register", {
         method: "POST",
@@ -336,12 +349,14 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
         body: JSON.stringify(userToRegister),
       })
       const data = await request.json();
+      setRegisterMessage(data.message);
       if(data.status === "success"){
         router.push("/");
       }
     } catch (error) {
       console.error(error);  
     }
+    setRegisterLoading(false);
   };
 
   const logOut = async () => {
@@ -424,6 +439,12 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
         setPage,
         file,
         setFile,
+        loginMessage,
+        setLoginMessage,
+        loginLoading,
+        setLoginLoading,
+        registerLoading,
+        setRegisterLoading,
       }}
     >
       {children}

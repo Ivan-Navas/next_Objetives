@@ -43,8 +43,6 @@ export type ContextType = {
   userToRegister: UserToRegister;
   setUserToRegister: (userToRegister: UserToRegister) => void;
   registerUser: () => void;
-  registerMessage: string;
-  setRegisterMessage: (registerMessage: string) => void;
   logOut: () => void;
   getPorcent: (progress: number, amount: number) => number;
   stateMoneyComplete: number;
@@ -60,4 +58,12 @@ export type ContextType = {
   setPage: (page: number) => void;
   file: any;
   setFile: (file: any) => void;
+  loginMessage: string;
+  setLoginMessage: (loginMessage: string) => void;
+  loginLoading: boolean;
+  setLoginLoading: (loginLoading: boolean) => void;
+  registerMessage: string;
+  setRegisterMessage: (loginMessage: string) => void;
+  registerLoading: boolean;
+  setRegisterLoading: (loginLoading: boolean) => void;
 };
