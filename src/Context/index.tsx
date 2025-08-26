@@ -17,6 +17,7 @@ import {
   CaroRequest,
   //Caroucel2,
 } from "@/interface/caroucel";
+import { useSession } from "next-auth/react";
 
 const AppContext = createContext<ContextType>({
   objetives: [],

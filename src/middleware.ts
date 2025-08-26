@@ -1,9 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
-import { jwtVerify } from "jose";
+import { getToken } from "next-auth/jwt";
+//import { jwtVerify } from "jose";
 
 export const middleware = async (req: NextRequest) => {
   const token = req.cookies.get("token")?.value;
-  if (token === undefined) {
+  const tokenAuth = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
+  if (token === undefined && !tokenAuth) {
     return NextResponse.redirect(new URL("/login", req.url));
   }
 };

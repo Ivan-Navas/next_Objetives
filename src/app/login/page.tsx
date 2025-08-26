@@ -6,6 +6,7 @@ import { logo, google } from "@/helpers/helpers";
 import { Title } from "@/components/ui/Title";
 import { useAppContext } from "@/Context";
 import Image from "next/image";
+import {signIn} from "next-auth/react";
 
 function Login() {
   const {
@@ -88,7 +89,7 @@ function Login() {
           <h3 className="font-roboto text-12 text-center">O</h3>
           <hr className="h-px border-none rounded-md bg-gradient-to-r from-start via-middle to-end" />
         </div>
-        <Button >
+        <Button onClick={() => signIn("google", {callbackUrl: "/"}) } type="button" >
           <img src={google} alt="google_logo" className="w-20 h-20" />
         </Button>
       </form>

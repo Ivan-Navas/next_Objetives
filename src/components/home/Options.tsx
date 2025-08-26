@@ -1,6 +1,7 @@
 import { useAppContext } from '@/Context'
 import React from 'react'
 import { BiPlus, BiLogOut } from 'react-icons/bi'
+import { signOut } from "next-auth/react"
 
 type Props = {
   setFormState: (formState: boolean) => void,
@@ -14,6 +15,7 @@ function Options(props: Props) {
         <BiPlus className='text-titles text-60'/>
       </button>
       <button aria-label='option-buttons' onClick={()=>{
+        signOut()
         logOut()
       }}>
         <BiLogOut className='text-titles text-60'/>
