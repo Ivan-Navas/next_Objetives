@@ -245,7 +245,9 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
             "Content-Type": "application/json",
           },
         });
+
         const data = await response.json();
+        console.log(data);
         const formData = new FormData();
         formData.append("file", file);
         const addImageRequest = await fetch(

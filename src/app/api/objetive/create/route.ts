@@ -7,6 +7,8 @@ export const POST = async (req: NextRequest) => {
   try {
     const data = await req.json();
     const token = req.cookies.get("token")?.value;
+    const googleToken = req.cookies.get("next-auth.session-token")?.value;
+    console.log(googleToken)
     if(!token){
       return NextResponse.json({
         status: "error",
