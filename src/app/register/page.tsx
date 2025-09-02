@@ -35,7 +35,7 @@ function Register() {
           <img src={logo} alt="logo_image" className="w-80 h-80 text-center" />
         </div>
         <Title />
-          <h2 className="text-titles text-center">{registerMessage}</h2>
+          <h2 className={registerMessage.status === "error"? "text-[#E62727] text-center": "text-titles text-center"}>{registerMessage.message}</h2>
         <Input 
           type="text" 
           name="name"

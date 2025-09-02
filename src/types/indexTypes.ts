@@ -2,7 +2,7 @@ import { Objetive as ObjetiveInterface } from "@/interface/objetive";
 import { Auth as AuthInterface, UserToRegister } from "@/interface/auth";
 import { Stadistic as StadisticInterface } from "@/interface/stadistic";
 import { Credential } from "@/interface/login";
-import User from "@/interface/user";
+import User, { RegisterMessage } from "@/interface/user";
 import { CaroRequest, Caroucel, CaroucelOb } from "@/interface/caroucel";
 
 export type ContextType = {
@@ -63,8 +63,8 @@ export type ContextType = {
   setLoginMessage: (loginMessage: string) => void;
   loginLoading: boolean;
   setLoginLoading: (loginLoading: boolean) => void;
-  registerMessage: string;
-  setRegisterMessage: (loginMessage: string) => void;
+  registerMessage: RegisterMessage;
+  setRegisterMessage: (registerMessage: RegisterMessage) => void;
   registerLoading: boolean;
   setRegisterLoading: (loginLoading: boolean) => void;
   code: string;

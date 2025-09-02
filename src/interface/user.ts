@@ -5,6 +5,11 @@ export default interface User {
   password: string;
 }
 
+export interface RegisterMessage {
+  status: string,
+  message: string,
+}
+
 export interface TokenInterface {
   id: number,
   name: string,

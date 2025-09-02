@@ -8,7 +8,7 @@ import { ContextType } from "@/types/indexTypes";
 import { Stadistic as StadisticInterface } from "@/interface/stadistic";
 import { Auth as AuthInterface, UserToRegister } from "@/interface/auth";
 import { Credential } from "@/interface/login";
-import User from "@/interface/user";
+import User, { RegisterMessage } from "@/interface/user";
 import { Objetives } from "@/interface/objetives";
 import { useRouter } from "next/navigation";
 import {
@@ -82,7 +82,10 @@ const AppContext = createContext<ContextType>({
   },
   setUserToRegister: () => {},
   registerUser: () => {},
-  registerMessage: "",
+  registerMessage: {
+    status: "",
+    message: "",
+  },
   setRegisterMessage: () => {},
   logOut: () => {},
   getPorcent: () => 0,
@@ -139,7 +142,10 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
   const [formState, setFormState] = useState<boolean>(false);
   const [editState, setEditState] = useState<boolean>(false);
   const [registerPassword, setRegisterPassword] = useState<boolean>(true);
-  const [registerMessage, setRegisterMessage] = useState<string>("");
+  const [registerMessage, setRegisterMessage] = useState<RegisterMessage>({
+    status: "",
+    message: "",
+  });
   const [registerConfirmPassword, setRegisterConfirmPassword] =
     useState<boolean>(true);
   const [newObjetive, setNewObjetive] = useState<ObjetiveInterface>({
@@ -361,7 +367,10 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
         body: JSON.stringify(userToRegister),
       })
       const data = await request.json();
-      setRegisterMessage(data.message);
+      setRegisterMessage({
+        status: data.status,
+        message: data.message,
+      });
       if(data.status === "success"){
         router.push("/");
       }
