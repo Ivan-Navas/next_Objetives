@@ -19,6 +19,13 @@ model User {
   objetives Objetive[]
 }
 
+model UserVerify {
+  id Int @id @default(autoincrement())
+  email String
+  isVerify Boolean @default(false)
+  expiresAt DateTime
+}
+
 model Objetive {
   id Int @id @default(autoincrement())
   title String
