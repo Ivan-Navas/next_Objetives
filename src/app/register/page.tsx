@@ -1,7 +1,7 @@
 "use client";
 import { Input, Button } from "@/components/ui";
 import { logo } from "@/helpers/helpers";
-import { BiLowVision } from "react-icons/bi";
+import { BiLowVision, BiEnvelope, BiSend } from "react-icons/bi";
 import Link from "next/link";
 import { BiArrowBack } from "react-icons/bi";
 import { Title } from "@/components/ui/Title";
@@ -19,6 +19,7 @@ function Register() {
     registerMessage,
     handleRegisterChange,
     registerLoading,
+    handleCode,
   } = useAppContext();
 
   return (
@@ -43,15 +44,43 @@ function Register() {
           required 
           onChange={handleRegisterChange}
         />
-        <div className="mt-[48px]">
-          <Input 
-            type="email" 
-            name="email"
-            placeholder="Correo" 
-            required 
-            id="email" 
-            onChange={handleRegisterChange}
-          />
+        <div className="mt-[48px] flex">
+          <div className="w-[50%] flex">
+            <Input 
+              type="email" 
+              name="email"
+              placeholder="Correo" 
+              required 
+              id="email" 
+              onChange={handleRegisterChange}
+            />
+            <button
+              type="button"
+              className="w-[26px] h-[26px] rounded-[4px] bg-[#BADE00] flex items-center justify-center"
+            >
+              <BiEnvelope
+                className="w-[26] h-[26px] text-[#1F1F1F]"
+              />
+            </button>
+          </div>
+          <div className="w-[50%] flex">
+            <Input 
+              type="number" 
+              name="code"
+              placeholder="Codigo" 
+              required 
+              id="code" 
+              onChange={handleCode}
+            />
+            <button
+              type="button"
+              className="w-[26px] h-[26px] rounded-[4px] bg-[#BADE00] flex items-center justify-center"
+            >
+              <BiSend 
+                className="w-[26] h-[26px] text-[#1F1F1F]"
+              />
+            </button>
+          </div>
         </div>
         <div className="flex relative mt-[48px]">
           <Input

@@ -117,6 +117,9 @@ const AppContext = createContext<ContextType>({
   setLoginLoading: () => {},
   registerLoading: false,
   setRegisterLoading: () => {},
+  code: "",
+  setCode: () => {},
+  handleCode: () => {},
 });
 
 export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
@@ -188,6 +191,7 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
   const [loginMessage, setLoginMessage] = useState<string>("");
   const [loginLoading, setLoginLoading] = useState<boolean>(false);
   const [registerLoading, setRegisterLoading] = useState<boolean>(false);
+  const [code, setCode] = useState<string>("");
 
   //#region functions
   const handleObjetive = (e: any) => {
@@ -294,6 +298,11 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
       [e.target.name]: e.target.value,
     });
   };
+  
+  const handleCode = (e: any) => {
+    setCode(e.target.value);
+    console.log(code);
+  }
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -448,6 +457,9 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
         setLoginLoading,
         registerLoading,
         setRegisterLoading,
+        code,
+        setCode,
+        handleCode,
       }}
     >
       {children}
