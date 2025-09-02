@@ -357,25 +357,33 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
 
   const registerUser = async () => {
     setRegisterLoading(true);
-    try {
-      const request = await fetch("/api/user/register", {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "aplication/json",
-        },
-        body: JSON.stringify(userToRegister),
-      })
-      const data = await request.json();
+    if(code === ""){
       setRegisterMessage({
-        status: data.status,
-        message: data.message,
-      });
-      if(data.status === "success"){
-        router.push("/");
+        status: "error",
+        message: "Ingrese el codigo para verificar su email",
+      })
+    }
+    else{ 
+      try {
+        const request = await fetch("/api/user/register", {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "aplication/json",
+          },
+          body: JSON.stringify(userToRegister),
+        })
+        const data = await request.json();
+        setRegisterMessage({
+          status: data.status,
+          message: data.message,
+        });
+        if(data.status === "success"){
+          router.push("/");
+        }
+      } catch (error) {
+        console.error(error);  
       }
-    } catch (error) {
-      console.error(error);  
     }
     setRegisterLoading(false);
   };
