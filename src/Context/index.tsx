@@ -8,7 +8,7 @@ import { ContextType } from "@/types/indexTypes";
 import { Stadistic as StadisticInterface } from "@/interface/stadistic";
 import { Auth as AuthInterface, UserToRegister } from "@/interface/auth";
 import { Credential } from "@/interface/login";
-import User, { RegisterMessage } from "@/interface/user";
+import User, { CodeRequest, CreateCodeRequest, RegisterMessage } from "@/interface/user";
 import { Objetives } from "@/interface/objetives";
 import { useRouter } from "next/navigation";
 import {
@@ -123,6 +123,7 @@ const AppContext = createContext<ContextType>({
   code: "",
   setCode: () => {},
   handleCode: () => {},
+  sendCodeVerification: () => {},
 });
 
 export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
@@ -355,6 +356,24 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
+  const sendCodeVerification = async ()=>{
+    try {
+      const request = await fetch("/api/user/email-verify/save",{
+        method: "POST",
+        headers: {
+          "Content-Type": "aplication/json",
+        },
+        body: JSON.stringify({
+          email: userToRegister.email,
+        })
+      })
+      const data: CreateCodeRequest = await request.json();
+      setRegisterMessage(data);
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   const registerUser = async () => {
     setRegisterLoading(true);
     if(code === ""){
@@ -365,21 +384,37 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
     }
     else{ 
       try {
-        const request = await fetch("/api/user/register", {
+        const codeRequest = await fetch("/api/user/email-verify/get", {
           method: "POST",
-          credentials: "include",
           headers: {
             "Content-Type": "aplication/json",
           },
-          body: JSON.stringify(userToRegister),
+          body: JSON.stringify({
+            email: userToRegister.email,
+            code: code,
+          })
         })
-        const data = await request.json();
-        setRegisterMessage({
-          status: data.status,
-          message: data.message,
-        });
-        if(data.status === "success"){
-          router.push("/");
+        const codeData: CodeRequest = await codeRequest.json();
+        if(codeData.status === "success"){
+          const request = await fetch("/api/user/register", {
+            method: "POST",
+            credentials: "include",
+            headers: {
+              "Content-Type": "aplication/json",
+            },
+            body: JSON.stringify(userToRegister),
+          })
+          const data = await request.json();
+          setRegisterMessage({
+            status: data.status,
+            message: data.message,
+          });
+          if(data.status === "success"){
+            router.push("/");
+          }
+        }
+        else{
+          setRegisterMessage(codeData);
         }
       } catch (error) {
         console.error(error);  
@@ -477,6 +512,7 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
         code,
         setCode,
         handleCode,
+        sendCodeVerification,
       }}
     >
       {children}

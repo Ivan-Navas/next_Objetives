@@ -69,4 +69,5 @@ export type ContextType = {
   setRegisterLoading: (loginLoading: boolean) => void;
   code: string;
   setCode: (code: string) => void;
+  sendCodeVerification: () => void;
 };

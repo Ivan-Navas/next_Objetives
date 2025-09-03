@@ -20,6 +20,7 @@ function Register() {
     handleRegisterChange,
     registerLoading,
     handleCode,
+    sendCodeVerification,
   } = useAppContext();
 
   return (
@@ -57,6 +58,7 @@ function Register() {
             <button
               type="button"
               className="w-[26px] h-[26px] rounded-[4px] bg-[#BADE00] flex items-center justify-center"
+              onClick={sendCodeVerification}
             >
               <BiEnvelope
                 className="w-[26] h-[26px] text-[#1F1F1F]"
