@@ -45,8 +45,8 @@ function Register() {
           required 
           onChange={handleRegisterChange}
         />
-        <div className="mt-[48px] flex">
-          <div className="w-[50%] flex">
+        <div className="mt-[48px] flex gap-[4px]">
+          <div className="w-[60%] flex">
             <Input 
               type="email" 
               name="email"
@@ -65,7 +65,7 @@ function Register() {
               />
             </button>
           </div>
-          <div className="w-[50%] flex">
+          <div className="w-[40%] flex">
             <Input 
               type="number" 
               name="code"
@@ -74,14 +74,6 @@ function Register() {
               id="code" 
               onChange={handleCode}
             />
-            <button
-              type="button"
-              className="w-[26px] h-[26px] rounded-[4px] bg-[#BADE00] flex items-center justify-center"
-            >
-              <BiSend 
-                className="w-[26] h-[26px] text-[#1F1F1F]"
-              />
-            </button>
           </div>
         </div>
         <div className="flex relative mt-[48px]">
