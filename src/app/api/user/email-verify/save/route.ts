@@ -7,6 +7,12 @@ export const POST = async (req: NextRequest) => {
   try {
     //const resend = new Resend(process.env.RESEND_API_KEY);
     const { email } = await req.json();
+    if(!email){
+      return NextResponse.json({
+        status: "error",
+        message: "Ingrese su correo"
+      })
+    }
     const userExist = await prisma.user.findFirst({
       where: {
         email: email,
