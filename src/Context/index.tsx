@@ -211,7 +211,6 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
   const profile = async () => {
     const request = await fetch("/api/user/profile");
     const data = await request.json();
-    console.log(data)
     if(data.status === "success"){
       setAuth(data.user);
       const obRequest = await fetch(`/api/objetive/get/${data.user.id}`, {
