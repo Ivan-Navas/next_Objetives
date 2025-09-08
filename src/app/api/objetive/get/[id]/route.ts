@@ -78,7 +78,6 @@ export const GET = async (req: NextRequest, context: { params: Promise<{id: stri
       })
     }
   } catch (error: any) {
-    console.log(error);
     return NextResponse.json({
       status: "error",
       message: "Error al obtener los objetivos",
