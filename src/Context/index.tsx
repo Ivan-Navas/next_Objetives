@@ -347,18 +347,19 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
         body: JSON.stringify(editObjetive),
       })
       const data = await request.json();
-      const formData = new FormData();
-      formData.append("file", file);
-      const addImageRequest = await fetch(
-        `/api/objetive/add-image/${data.objetive.id}`,
-        {
-          method: "PUT",
-          body: formData,
-        }
-      );
-      const addImageRes: RequestObjetive = await addImageRequest.json();
+
       if(data.status === "success"){  
-        console.log(addImageRes);
+        if(file){
+          const formData = new FormData();
+          formData.append("file", file);
+          await fetch(`/api/objetive/add-image/${data.objetive.id}`,
+            {
+              method: "PUT",
+              body: formData,
+            }
+          );
+        }
+        setFile(null);
         setEditState(false)
         profile();
       }
