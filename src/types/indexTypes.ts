@@ -3,7 +3,7 @@ import { Auth as AuthInterface, UserToRegister } from "@/interface/auth";
 import { Stadistic as StadisticInterface } from "@/interface/stadistic";
 import { Credential } from "@/interface/login";
 import User, { RegisterMessage } from "@/interface/user";
-import { CaroRequest, Caroucel, CaroucelOb } from "@/interface/caroucel";
+import { CaroucelCard, CaroucelRequest, CaroucelObjetive } from "@/interface/caroucel";
 
 export type ContextType = {
   objetives: ObjetiveInterface[];
@@ -50,11 +50,11 @@ export type ContextType = {
   setStateMoneyComplete: (stateMoneyComplete: number) => void;
   stateObjetiveComplete: number;
   setStateObjetiveComplete: (stateObjetiveComplete: number) => void;
-  caroucelState: CaroRequest;
-  setCaroucelState: (stateCaroucel: CaroRequest) => void;
+  caroucelState: CaroucelRequest;
+  setCaroucelState: (stateCaroucel: CaroucelRequest) => void;
   caroucel: () => void;
-  caroucelOb: CaroucelOb;
-  setCaroucelOb: (caroucelOb: CaroucelOb) => void;
+  caroucelOb: CaroucelCard;
+  setCaroucelOb: (caroucelOb: CaroucelCard) => void;
   page: number;
   setPage: (page: number) => void;
   file: any;

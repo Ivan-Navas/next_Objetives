@@ -12,12 +12,10 @@ import User, { CodeRequest, CreateCodeRequest, RegisterMessage } from "@/interfa
 import { Objetives } from "@/interface/objetives";
 import { useRouter } from "next/navigation";
 import {
-  Caroucel,
-  CaroucelOb,
-  CaroRequest,
-  //Caroucel2,
+  CaroucelRequest,
+  CaroucelCard,
 } from "@/interface/caroucel";
-import { useSession } from "next-auth/react";
+//import { useSession } from "next-auth/react";
 
 const AppContext = createContext<ContextType>({
   objetives: [],
@@ -96,19 +94,23 @@ const AppContext = createContext<ContextType>({
   caroucelState: {
     status: "",
     message: "",
-    caroucel: [],
+    objetives: [],
   },
   setCaroucelState: () => {},
   caroucel: () => {},
-  caroucelOb: {
-    title: "",
-    page: 0,
-    objetive: {
+  caroucelOb:
+    {
       title: "",
-      progress: 0,
-      amount: 0,
+      page: 0,
+      objetive: {
+        id: 0,
+        title: "",
+        progress: 0,
+        amount: 0,
+        image: "",
+        userId: 0,
+      },
     },
-  },
   setCaroucelOb: () => {},
   page: 0,
   setPage: () => {},
@@ -176,22 +178,22 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
     password: "",
     confirmPassword: "",
   });
-  //const [caroucelState2, setCaroucelState2] = useState<Caroucel>({
-   // card: [],
-  //});
-  const [caroucelState, setCaroucelState] = useState<CaroRequest>({
+  const [caroucelState, setCaroucelState] = useState<CaroucelRequest>({
     status: "",
     message: "",
-    caroucel: [],
+    objetives: [],
   });
-  const [caroucelOb, setCaroucelOb] = useState<CaroucelOb>({
+  const [caroucelOb, setCaroucelOb] = useState<CaroucelCard>({
     title: "",
     page: 0,
     objetive: {
+      id: 0,
       title: "",
-      progress: 0,
       amount: 0,
-    },
+      progress: 0,
+      image: "",
+      userId: 0,
+    }
   });
   const [page, setPage] = useState<number>(0);
   const [file, setFile] = useState<any>(null);
@@ -232,10 +234,11 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
         setStateObjetiveComplete(myCompleteObjetive);
       }
       const caroucelReq = await fetch("/api/objetive/caroucel");
-      const caroucelData: CaroRequest = await caroucelReq.json();
+      const caroucelData: CaroucelRequest = await caroucelReq.json();
+      console.log(caroucelData);
       if (caroucelData.status === "success") {
         setCaroucelState(caroucelData);
-        setCaroucelOb(caroucelData.caroucel[page]);
+        setCaroucelOb(caroucelData.objetives![0]);
       }
       setStateObjetive(obData.objetives.length);
       return data.user;

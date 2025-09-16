@@ -2,23 +2,23 @@ import React, { useState, useEffect } from "react";
 import CaroucelCard from "../ui/CaroucelCard";
 import { useAppContext } from "@/Context";
 function Caroucel() {
-  const { caroucel, caroucelState, setCaroucelOb, page, setPage, caroucelOb } =
-    useAppContext();
-
+  const { caroucelState, setCaroucelOb, caroucelOb } = useAppContext();
+  const [pageState, setPageState] = useState<number>(0);
   useEffect(() => {
-    setCaroucelOb(caroucelState.caroucel[page]);
-    setTimeout(() => {
-      if (page < caroucelState.caroucel.length - 1) {
-        setPage(page + 1);
-      }
-      if (page == caroucelState.caroucel.length - 1) {
-        setPage(0);
-      }
+    const interval = setInterval(() => {
+      setPageState(prev => {
+        const lastIndex = caroucelState.objetives!.length - 1;
+        const next = prev >= lastIndex ? 0 : prev + 1;
+        setCaroucelOb(caroucelState.objetives![next]);
+        return next;
+      });
     }, 5000);
-  });
+
+    return () => clearInterval(interval);
+  }, [caroucelState.objetives]);
   return (
     <>
-      <CaroucelCard objetive={caroucelOb} />
+      <CaroucelCard objetive={caroucelOb.objetive!} />
     </>
   );
 }

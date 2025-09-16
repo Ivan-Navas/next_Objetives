@@ -22,6 +22,7 @@ function Feed() {
     stateMoney,
     stateMoneyComplete,
     stateObjetiveComplete,
+    caroucelState,
     caroucel
   } = useAppContext();
 
@@ -38,7 +39,11 @@ function Feed() {
           </div>
           <div className="w-full flex items-end">
             <Options setFormState={setFormState} />
-            <Caroucel />
+            {caroucelState.status === "success" ?
+              <Caroucel />:
+              <div className="w-full h-166 bg-back ml-16 rounded-16 relative">
+              </div>
+            }
           </div>
         </div>
         <div className="w-full grid grid-cols-2">
