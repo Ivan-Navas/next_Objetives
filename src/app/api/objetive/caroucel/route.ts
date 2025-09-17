@@ -65,31 +65,27 @@ export const GET = async (req: NextRequest) => {
         const complete = objetives.filter(
           (r) => r.progress === r.amount || r.progress === r.amount
         );
-        return NextResponse.json({
-          status: "success",
-          message: "caroucel obtenido",
-          objetives: [
-            {
+        const response = [
+            last && {
               title: "Objetivo reciente",
               objetive: last,
               page: 1,
             },
-            {
+            first && {
               title: "Mas antiguo",
               objetive: first,
               page: 2,
             },
-            {
+            complete[0] && {
               title: "Objetivo completo",
               objetive: complete[0],
               page: 3,
             },
-            //{
-            //title: "Mas cercano a 100%",
-            //objetive: more,
-            //page: 4,
-            //},
-          ],
+        ].filter(Boolean);
+        return NextResponse.json({
+          status: "success",
+          message: "caroucel obtenido",
+          objetives: response,
         });
       }
     }
@@ -133,31 +129,27 @@ export const GET = async (req: NextRequest) => {
         const gComplete = gObjetives.filter(
           (r) => r.progress === r.amount || r.progress === r.amount
         );
+        const gResponse = [
+          gLast && {
+            title: "Objetivo reciente",
+            objetive: gLast,
+            page: 1,
+          },
+          gFirst && {
+            title: "Mas antiguo",
+            objetive: gFirst,
+            page: 2,
+          },
+          gComplete[0] && {
+            title: "Objetivo completo",
+            objetive: gComplete[0],
+            page: 3,
+          },
+        ].filter(Boolean);
         return NextResponse.json({
           status: "success",
           message: "caroucel obtenido",
-          objetives: [
-            {
-              title: "Objetivo reciente",
-              objetive: gLast,
-              page: 1,
-            },
-            {
-              title: "Mas antiguo",
-              objetive: gFirst,
-              page: 2,
-            },
-            {
-              title: "Objetivo completo",
-              objetive: gComplete[0],
-              page: 3,
-            },
-            //{
-            //title: "Mas cercano a 100%",
-            //objetive: more,
-            //page: 4,
-            //},
-          ],
+          objetives: gResponse,
         });
       } else {
         return NextResponse.json({
