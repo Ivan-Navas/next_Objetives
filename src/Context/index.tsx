@@ -17,7 +17,10 @@ import {
 } from "@/interface/caroucel";
 //import { useSession } from "next-auth/react";
 
+//#region AppContext
 const AppContext = createContext<ContextType>({
+  loading: true,
+  setLoading: () => {},
   objetives: [],
   setObjetives: () => {},
   formState: false,
@@ -130,6 +133,7 @@ const AppContext = createContext<ContextType>({
 
 export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
   //#region states/variables
+  const [loading, setLoading] = useState<boolean>(true);
   const router = useRouter();
   const [objetives, setObjetives] = useState<ObjetiveInterface[]>([]);
   const [editObjetive, setEditObjetive] = useState<ObjetiveInterface>({
@@ -241,6 +245,7 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
         setCaroucelOb(caroucelData.objetives![0]);
       }
       setStateObjetive(obData.objetives.length);
+      setLoading(false);
       return data.user;
     }
   };
@@ -462,6 +467,8 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
   return (
     <AppContext.Provider
       value={{
+        loading,
+        setLoading,
         objetives,
         setObjetives,
         formState,

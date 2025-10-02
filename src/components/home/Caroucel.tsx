@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import CaroucelCard from "../ui/CaroucelCard";
 import { useAppContext } from "@/Context";
+import LoadingCaroucel from "../ui/LoadingCaroucel";
 function Caroucel() {
-  const { caroucelState, setCaroucelOb, caroucelOb } = useAppContext();
+  const { caroucelState, setCaroucelOb, caroucelOb, loading } = useAppContext();
   const [pageState, setPageState] = useState<number>(0);
   useEffect(() => {
     const interval = setInterval(() => {
@@ -18,7 +19,10 @@ function Caroucel() {
   }, [caroucelState.objetives]);
   return (
     <>
-      <CaroucelCard objetive={caroucelOb.objetive!} />
+      {loading ?
+        <LoadingCaroucel />:
+        <CaroucelCard objetive={caroucelOb.objetive!} />
+      }
     </>
   );
 }

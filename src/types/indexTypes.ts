@@ -6,6 +6,8 @@ import User, { RegisterMessage } from "@/interface/user";
 import { CaroucelCard, CaroucelRequest, CaroucelObjetive } from "@/interface/caroucel";
 
 export type ContextType = {
+  loading: boolean;
+  setLoading: (loading: boolean) => void;
   objetives: ObjetiveInterface[];
   setObjetives: (objetives: ObjetiveInterface[]) => void;
   formState: boolean;
