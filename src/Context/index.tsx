@@ -239,7 +239,6 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
       }
       const caroucelReq = await fetch("/api/objetive/caroucel");
       const caroucelData: CaroucelRequest = await caroucelReq.json();
-      console.log(caroucelData);
       if (caroucelData.status === "success") {
         setCaroucelState(caroucelData);
         setCaroucelOb(caroucelData.objetives![0]);
