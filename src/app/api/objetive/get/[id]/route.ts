@@ -44,6 +44,9 @@ export const GET = async (req: NextRequest, context: { params: Promise<{id: stri
         where: {
           userId: user?.id,
         },
+        orderBy: {
+          id: "desc"
+        },
       });
       return NextResponse.json({
         status: "success",
