@@ -27,6 +27,7 @@ function Objetive(props: Props) {
       }}
     >
       <button
+        title="objetive"
         className="absolute top-0 right-0 opacity-0"
         onClick={async () => {
           await fetch(`/api/objetive/delete/${props.id}`, {
