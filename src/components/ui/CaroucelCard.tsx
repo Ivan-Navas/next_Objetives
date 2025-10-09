@@ -16,7 +16,7 @@ const CaroucelCard = (props: Props) => {
     useAppContext();
 
   return (
-    <div className="w-full h-166 bg-back ml-16 rounded-16 relative">
+    <div className="w-full h-166 bg-back ml-[5px] sm:ml-16 rounded-16 relative">
       {caroucelState.objetives![0] ? (
         <>
           {caroucelOb.objetive ? (

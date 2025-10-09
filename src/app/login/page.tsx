@@ -21,7 +21,7 @@ function Login() {
   return (
 
     <div className="w-screen h-screen flex justify-center items-center">
-      <form className="w-448 h-600 rounded-16 bg-back px-51">
+      <form className="w-[350px] h-600 rounded-16 bg-[#2f2f2f] px-1 sm:w-[448px] sm:bg-back sm:px-51">
         <h2 className=" text-titles text-40 text-center font-bold font-roboto mt-43 ">
           Inicio de sesíon
         </h2>
@@ -50,6 +50,7 @@ function Login() {
             onChange={handleChange}
           />
           <button
+            title="button"
             className="absolute top-0 right-0 "
             onClick={(e) => {
               e.preventDefault();

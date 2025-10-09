@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import CaroucelCard from "../ui/CaroucelCard";
 import { useAppContext } from "@/Context";
 import LoadingCaroucel from "../ui/LoadingCaroucel";
+
 function Caroucel() {
   const { caroucelState, setCaroucelOb, caroucelOb, loading } = useAppContext();
   const [pageState, setPageState] = useState<number>(0);

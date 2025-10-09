@@ -5,8 +5,8 @@ import CircleCaroucel from "./CircleCaroucel";
 
 const LoadingObjetive = () => {
   return (
-    <div className="w-full h-166 bg-back ml-16 rounded-16 relative">
-      <div className=" flex pl-10">
+    <div className="h-166 bg-back ml-16 rounded-16 relative">
+      <div className="flex pl-10">
         <div>
           <div className="w-full h-[15px] flex justify-center">
             <div className="w-[36px] h-[15px] bg-[#6F6F6F] rounded-[4px] shadow animate-pulse"></div>

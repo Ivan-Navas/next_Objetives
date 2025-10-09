@@ -25,7 +25,7 @@ function Register() {
 
   return (
     <div className="w-screen h-screen flex justify-center items-center">
-      <form className="w-448 h-600 rounded-16 bg-back px-51 relative">
+      <form className="w-[350px] h-600 relative rounded-16 bg-[#2f2f2f] px-1 sm:w-[448px] sm:bg-back sm:px-51">
         <Link href="/login" className="absolute top-2 left-2">
           <BiArrowBack className="text-titles text-20" />
         </Link>
@@ -56,6 +56,7 @@ function Register() {
               onChange={handleRegisterChange}
             />
             <button
+              title="button"
               type="button"
               className="w-[26px] h-[26px] rounded-[4px] bg-[#BADE00] flex items-center justify-center"
               onClick={sendCodeVerification}
@@ -86,6 +87,7 @@ function Register() {
             onChange={handleRegisterChange}
           />
           <button
+            title="button"
             className="absolute top-0 right-0 "
             onClick={(e) => {
               e.preventDefault();
@@ -106,6 +108,7 @@ function Register() {
             onChange={handleRegisterChange}
           />
           <button
+            title="button"
             className="absolute top-0 right-0 "
             onClick={(e) => {
               e.preventDefault();

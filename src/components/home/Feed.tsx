@@ -34,18 +34,18 @@ function Feed() {
   }, []);
 
   return (
-    <div className="p-4">
-      <div className=" grid grid-cols-2 ">
-        <div className="grid">
-          <div className="w-full h-70 p-2 rounded-16 flex items-center bg-back">
+    <div className="mt-[5px] sm:p-4">
+      <div className="grid sm:grid-cols-2 ">
+        <div className="grid px-[5px]">
+          <div className="w-full h-70 rounded-16 flex items-center bg-back">
             <Logo />
           </div>
-          <div className="w-full flex items-end">
+          <div className="flex sm:items-end mt-[5px] sm:mt-0">
             <Options setFormState={setFormState} />
             <Caroucel />
           </div>
         </div>
-        <div className="w-full grid grid-cols-2">
+        <div className="w-full mt-[5px] sm:mt-0 gap-[5px] px-[5px] grid grid-cols-2">
           <div className="flex justify-end ">
             {loading ?
               <LoadingStadistic
@@ -73,47 +73,48 @@ function Feed() {
           </div>
         </div>
       </div>
-      <section className="bg-back w-full h-fullv mt-21 p-3 rounded-16 ">
-        <h2 className="font-roboto font-extrabold text-center text-titles text-30">
-          Objetivos
-        </h2>
-        <div className="w-full h-full mt-10 p-3 rounded-16 grid grid-cols-2">
-          {loading ?
-            <>
-              <LoadingObjetive />
-              <LoadingObjetive />
-              <LoadingObjetive />
-              <LoadingObjetive />
-            </> :
-            <>
-              {objetives.length >= 1 ? (
-                <>
-                  {objetives.map((obje: ObjetiveInterface) => {
-                    return (
-                      <div key={obje.id}>
-                        <Objetive
-                          id={obje.id}
-                          title={obje.title}
-                          amount={obje.amount}
-                          progress={obje.progress}
-                          image={obje.image}
-                        />
-                      </div>
-                    );
-                  })}
-                </>
-              ) : (
-                <div className="w-ful flex items-cemter justify-center col-span-3">
-                  <h2 className="text-titles font-roboto font-extrabold ">
-                    No hay objetivos
-                  </h2>
-                </div>
-              )}
-            </>
-
-          }
-        </div>
-      </section>
+      <div className="px-[5px]">
+        <section className="bg-back w-full h-full mt-[5px] sm:mt-21 rounded-16 ">
+          <h2 className="font-roboto font-extrabold text-center text-titles text-30">
+            Objetivos
+          </h2>
+          <div className="w-full h-full mt-10 p-3 rounded-16 grid sm:grid-cols-2">
+            {loading ?
+              <>
+                <LoadingObjetive />
+                <LoadingObjetive />
+                <LoadingObjetive />
+                <LoadingObjetive />
+              </> :
+              <>
+                {objetives.length >= 1 ? (
+                  <>
+                    {objetives.map((obje: ObjetiveInterface) => {
+                      return (
+                        <div key={obje.id}>
+                          <Objetive
+                            id={obje.id}
+                            title={obje.title}
+                            amount={obje.amount}
+                            progress={obje.progress}
+                            image={obje.image}
+                          />
+                        </div>
+                      );
+                    })}
+                  </>
+                ) : (
+                  <div className="w-ful flex items-cemter justify-center col-span-3">
+                    <h2 className="text-titles font-roboto font-extrabold ">
+                      No hay objetivos
+                    </h2>
+                  </div>
+                )}
+              </>
+            }
+          </div>
+        </section>
+      </div>
       {formState && <Form />}
       {editState && <EditForm />}
     </div>
