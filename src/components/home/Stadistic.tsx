@@ -20,7 +20,7 @@ function Stadistic(props: Props) {
 
   return (
     <div className="w-full bg-back rounded-16 p-5">
-      <h2 className="font-bold text-[15px] sm:text-20 text-center text-titles font-roboto">
+      <h2 className="font-bold text-[15px] sm:text-[20px] md:text-[12px] lg:text-[20px] text-center text-titles font-roboto">
         {props.title}
       </h2>
       <div className="w-full relative flex items-center justify-center">
@@ -50,8 +50,8 @@ function Stadistic(props: Props) {
               style={{
                 strokeDasharray:
                   props.total > 0
-                  ? `${getPorcent(props.progress, props.total)},100`
-                  : "0,100",
+                    ? `${getPorcent(props.progress, props.total)},100`
+                    : "0,100",
                 transform: "rotate(-90deg)",
                 transformOrigin: "50% 50%",
                 stroke: "url(#linearS)",

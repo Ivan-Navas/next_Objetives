@@ -11,14 +11,14 @@ function Options(props: Props) {
   const { logOut } = useAppContext();
   return (
     <div className='w-76 h-166 bg-back rounded-16 grid justify-center'>
-      <button aria-label='option-buttons' onClick={()=> props.setFormState(true)}>
-        <BiPlus className='text-titles text-60'/>
+      <button aria-label='option-buttons' onClick={() => props.setFormState(true)}>
+        <BiPlus className='text-titles text-60' />
       </button>
-      <button aria-label='option-buttons' onClick={()=>{
+      <button aria-label='option-buttons' onClick={() => {
         signOut()
         logOut()
       }}>
-        <BiLogOut className='text-titles text-60'/>
+        <BiLogOut className='text-titles text-60' />
       </button>
     </div>
   )

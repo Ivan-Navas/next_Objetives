@@ -35,12 +35,12 @@ function Feed() {
 
   return (
     <div className="mt-[5px] sm:p-4">
-      <div className="grid sm:grid-cols-2 ">
+      <div className="grid sm:grid-cols-2">
         <div className="grid px-[5px]">
           <div className="w-full h-70 rounded-16 flex items-center bg-back">
             <Logo />
           </div>
-          <div className="flex sm:items-end mt-[5px] sm:mt-0">
+          <div className="flex mt-[5px]">
             <Options setFormState={setFormState} />
             <Caroucel />
           </div>

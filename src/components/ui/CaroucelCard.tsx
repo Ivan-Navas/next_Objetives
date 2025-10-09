@@ -16,12 +16,12 @@ const CaroucelCard = (props: Props) => {
     useAppContext();
 
   return (
-    <div className="w-full h-166 bg-back ml-[5px] sm:ml-16 rounded-16 relative">
+    <div className="w-full h-166 bg-back ml-[5px] rounded-16 relative">
       {caroucelState.objetives![0] ? (
         <>
           {caroucelOb.objetive ? (
             <>
-              <h2 className="text-center text-30 text-titles font-extrabold font-roboto ">
+              <h2 className="text-center text-30 md:text-[25px] lg:text-[30px] text-titles font-extrabold font-roboto ">
                 {caroucelOb.title}
               </h2>
               <div className=" flex pl-10">
