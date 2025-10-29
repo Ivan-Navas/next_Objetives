@@ -1,32 +1,20 @@
-import { Objetive } from "./objetive";
-
-interface Card {
+export interface CaroucelObjetive {
+  id: number,
   title: string,
-  page: number,
-  caroucelObjetive: Objetive,
+  amount: number,
+  progress: number,
+  image: string,
+  userId: number,
 }
-interface CaroucelReq {
-  name: string,
-  page: number,
-  objetive: Objetive,
-}
-
-export interface Caroucel {
-  card: Card[],
-}
-export interface CaroucelOb{
+export interface CaroucelCard {
   title: string,
+  objetive: CaroucelObjetive,
   page: number,
-  objetive: Objetive,
 }
-
-export interface CaroRequest {
+export interface CaroucelRequest {
   status: string,
   message: string,
-  caroucel: CaroucelOb[]
+  objetives?: CaroucelCard[],
 }
-export interface Caroucel2{
-    title: string,
-    page: number,
-    objetive: Objetive,
-}
+
+

@@ -6,19 +6,21 @@ import {
 } from "@/interface/objetive";
 import { ContextType } from "@/types/indexTypes";
 import { Stadistic as StadisticInterface } from "@/interface/stadistic";
-import { Auth as AuthInterface } from "@/interface/auth";
+import { Auth as AuthInterface, UserToRegister } from "@/interface/auth";
 import { Credential } from "@/interface/login";
-import User from "@/interface/user";
+import User, { CodeRequest, CreateCodeRequest, RegisterMessage } from "@/interface/user";
 import { Objetives } from "@/interface/objetives";
 import { useRouter } from "next/navigation";
 import {
-  Caroucel,
-  CaroucelOb,
-  CaroRequest,
-  Caroucel2,
+  CaroucelRequest,
+  CaroucelCard,
 } from "@/interface/caroucel";
+//import { useSession } from "next-auth/react";
 
+//#region AppContext
 const AppContext = createContext<ContextType>({
+  loading: true,
+  setLoading: () => {},
   objetives: [],
   setObjetives: () => {},
   formState: false,
@@ -49,14 +51,15 @@ const AppContext = createContext<ContextType>({
   createObjetive: () => {},
   handleSubmit: () => {},
   handleChange: () => {},
+  handleRegisterChange: () => {},
+  handleEditObjetiveChange: () => {},
   loginPassword: true,
   setLoginPassword: () => {},
   credentials: {
     email: "",
-    password: "",
+      password: "",
   },
   setCredentials: () => {},
-  getProfile: () => {},
   registerPassword: true,
   setRegisterPassword: () => {},
   registerConfirmPassword: true,
@@ -76,10 +79,14 @@ const AppContext = createContext<ContextType>({
     email: "",
     name: "",
     password: "",
+    confirmPassword: "",
   },
-  SetUserToRegister: () => {},
+  setUserToRegister: () => {},
   registerUser: () => {},
-  registerMessage: "",
+  registerMessage: {
+    status: "",
+    message: "",
+  },
   setRegisterMessage: () => {},
   logOut: () => {},
   getPorcent: () => 0,
@@ -90,29 +97,47 @@ const AppContext = createContext<ContextType>({
   caroucelState: {
     status: "",
     message: "",
-    caroucel: [],
+    objetives: [],
   },
   setCaroucelState: () => {},
   caroucel: () => {},
-  caroucelOb: {
-    title: "",
-    page: 0,
-    objetive: {
+  caroucelOb:
+    {
       title: "",
-      progress: 0,
-      amount: 0,
+      page: 0,
+      objetive: {
+        id: 0,
+        title: "",
+        progress: 0,
+        amount: 0,
+        image: "",
+        userId: 0,
+      },
     },
-  },
   setCaroucelOb: () => {},
   page: 0,
   setPage: () => {},
   file: "",
   setFile: () => {},
+  loginMessage: "",
+  setLoginMessage: () => {},
+  loginLoading: false,
+  setLoginLoading: () => {},
+  registerLoading: false,
+  setRegisterLoading: () => {},
+  code: "",
+  setCode: () => {},
+  handleCode: () => {},
+  sendCodeVerification: () => {},
 });
 
 export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
   //#region states/variables
+<<<<<<< HEAD
   const apiUrl = process.env.NEXT_PUBLIC_VERCEL_API;
+=======
+  const [loading, setLoading] = useState<boolean>(true);
+>>>>>>> new_features
   const router = useRouter();
   const [objetives, setObjetives] = useState<ObjetiveInterface[]>([]);
   const [editObjetive, setEditObjetive] = useState<ObjetiveInterface>({
@@ -128,7 +153,10 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
   const [formState, setFormState] = useState<boolean>(false);
   const [editState, setEditState] = useState<boolean>(false);
   const [registerPassword, setRegisterPassword] = useState<boolean>(true);
-  const [registerMessage, setRegisterMessage] = useState<string>("");
+  const [registerMessage, setRegisterMessage] = useState<RegisterMessage>({
+    status: "",
+    message: "",
+  });
   const [registerConfirmPassword, setRegisterConfirmPassword] =
     useState<boolean>(true);
   const [newObjetive, setNewObjetive] = useState<ObjetiveInterface>({
@@ -152,31 +180,35 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
     email: "",
     password: "",
   });
-  const [userToRegister, SetUserToRegister] = useState<User>({
+  const [userToRegister, setUserToRegister] = useState<UserToRegister>({
     email: "",
     name: "",
     password: "",
+    confirmPassword: "",
   });
-  const [caroucelState2, setCaroucelState2] = useState<Caroucel>({
-    card: [],
-  });
-  const [caroucelState, setCaroucelState] = useState<CaroRequest>({
+  const [caroucelState, setCaroucelState] = useState<CaroucelRequest>({
     status: "",
     message: "",
-    caroucel: [],
+    objetives: [],
   });
-
-  const [caroucelOb, setCaroucelOb] = useState<CaroucelOb>({
+  const [caroucelOb, setCaroucelOb] = useState<CaroucelCard>({
     title: "",
     page: 0,
     objetive: {
+      id: 0,
       title: "",
-      progress: 0,
       amount: 0,
-    },
+      progress: 0,
+      image: "",
+      userId: 0,
+    }
   });
   const [page, setPage] = useState<number>(0);
   const [file, setFile] = useState<any>(null);
+  const [loginMessage, setLoginMessage] = useState<string>("");
+  const [loginLoading, setLoginLoading] = useState<boolean>(false);
+  const [registerLoading, setRegisterLoading] = useState<boolean>(false);
+  const [code, setCode] = useState<string>("");
 
   //#region functions
   const handleObjetive = (e: any) => {
@@ -187,40 +219,44 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
   };
 
   const profile = async () => {
-    const request = await fetch(`${apiUrl}/user/profile`);
+    const request = await fetch("/api/user/profile");
     const data = await request.json();
-    setAuth(data.user);
-    const obRequest = await fetch(`${apiUrl}/objetive/get/${data.user.id}`, {
-      method: "GET",
-    });
-    const obData: Objetives = await obRequest.json();
-    setObjetives(obData.objetives);
-    let myTotalMoney: number = 0;
-    let myProgressMoney: number = 0;
-    let myCompleteObjetive: number = 0;
-    for (let i: number = 0; i < obData.objetives.length; i++) {
-      myTotalMoney += obData.objetives[i].amount;
-      myProgressMoney += obData.objetives[i].progress;
-      setStateMoney(myTotalMoney);
-      setStateMoneyComplete(myProgressMoney);
-      if (obData.objetives[i].progress >= obData.objetives[i].amount) {
-        myCompleteObjetive++;
+    if(data.status === "success"){
+      setAuth(data.user);
+      const obRequest = await fetch(`/api/objetive/get/${data.user.id}`, {
+        method: "GET",
+      });
+      const obData: Objetives = await obRequest.json();
+      setObjetives(obData.objetives);
+      let myTotalMoney: number = 0;
+      let myProgressMoney: number = 0;
+      let myCompleteObjetive: number = 0;
+      for (let i: number = 0; i < obData.objetives.length; i++) {
+        myTotalMoney += obData.objetives[i].amount;
+        myProgressMoney += obData.objetives[i].progress;
+        setStateMoney(myTotalMoney);
+        setStateMoneyComplete(myProgressMoney);
+        if (obData.objetives[i].progress >= obData.objetives[i].amount) {
+          myCompleteObjetive++;
       }
-      setStateObjetiveComplete(myCompleteObjetive);
+        setStateObjetiveComplete(myCompleteObjetive);
+      }
+      const caroucelReq = await fetch("/api/objetive/caroucel");
+      const caroucelData: CaroucelRequest = await caroucelReq.json();
+      if (caroucelData.status === "success") {
+        setCaroucelState(caroucelData);
+        setCaroucelOb(caroucelData.objetives![0]);
+      }
+      setStateObjetive(obData.objetives.length);
+      setLoading(false);
+      return data.user;
     }
-    const caroucelReq = await fetch(`${apiUrl}/objetive/caroucel`);
-    const caroucelData: CaroRequest = await caroucelReq.json();
-    if (caroucelData.status === "success") {
-      setCaroucelState(caroucelData);
-      setCaroucelOb(caroucelData.caroucel[page]);
-    }
-    setStateObjetive(obData.objetives.length);
-    return data.user;
   };
+
   const createObjetive = async () => {
     if (newObjetive.title !== "") {
       try {
-        const response = await fetch(`${apiUrl}/objetive/create`, {
+        const response = await fetch("/api/objetive/create", {
           method: "POST",
           body: JSON.stringify({
             title: newObjetive.title,
@@ -230,11 +266,12 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
             "Content-Type": "application/json",
           },
         });
+
         const data = await response.json();
         const formData = new FormData();
         formData.append("file", file);
         const addImageRequest = await fetch(
-          `${apiUrl}/objetive/add-image/${data.objetive.id}`,
+          `/api/objetive/add-image/${data.objetive.id}`,
           {
             method: "PUT",
             body: formData,
@@ -264,108 +301,161 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
     });
   };
 
+  const handleRegisterChange = (e: any) => {
+    setUserToRegister({
+      ...userToRegister,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleEditObjetiveChange = (e: any) => {
+    setEditObjetive({
+      ...editObjetive,
+      [e.target.name]: e.target.value,
+    });
+  };
+  
+  const handleCode = (e: any) => {
+    setCode(e.target.value);
+    console.log(code);
+  }
+
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    const request = await fetch(`${apiUrl}/user/login`, {
-      method: "POST",
-      body: JSON.stringify(credentials),
-    });
-    const data = await request.json();
-    router.push("/page/feed");
+    setLoginLoading(true);
+    try {
+      const request = await fetch("/api/user/login", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "aplication/json",
+        },
+        body: JSON.stringify(credentials),
+      });
+      const data = await request.json();
+      setLoginMessage(data.message);
+      if(data.status === "success"){
+        router.push("/");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+    setLoginLoading(false);
   };
 
-  const getProfile = async (e: any) => {
-    e.preventDefault();
-    const request = await fetch(`${apiUrl}/user/profile`);
-    const data = await request.json();
-  };
   const addPoint = (numero: number): string => {
-    // Convertir el número a una cadena y dividirlo en partes por cada tres dígitos
-    const partes = numero.toString().split(".");
-    partes[0] = partes[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-
-    // Unir las partes con el punto de mil
-    return partes.join(".");
+    const pointNumber = numero.toLocaleString("de-DE", { minimumFractionDigits: 0 });
+    return pointNumber;
   };
 
-  const toEditObjetive = async (id: any) => {
-    const title: HTMLInputElement | null = document.getElementById(
-      "title"
-    ) as HTMLInputElement | null;
-    const amount: HTMLInputElement | null = document.getElementById(
-      "amount"
-    ) as HTMLInputElement | null;
-    const progress: HTMLInputElement | null = document.getElementById(
-      "progress"
-    ) as HTMLInputElement | null;
-
-    if (title && amount && progress) {
-      const request = await fetch(`${apiUrl}/objetive/edit/${id}`, {
+  const toEditObjetive = async (id: number) => {
+    if (editObjetive) {
+      const request = await fetch(`/api/objetive/edit/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          title: title.value,
-          amount: amount.value,
-          progress: progress.value,
-        }),
-      }).finally(() => {
+        body: JSON.stringify(editObjetive),
+      })
+      const data = await request.json();
+
+      if(data.status === "success"){  
+        if(file){
+          const formData = new FormData();
+          formData.append("file", file);
+          await fetch(`/api/objetive/add-image/${data.objetive.id}`,
+            {
+              method: "PUT",
+              body: formData,
+            }
+          );
+        }
+        setFile(null);
+        setEditState(false)
         profile();
-        setEditState(false);
-      });
+      }
     }
   };
 
+  const sendCodeVerification = async ()=>{
+    try {
+      const request = await fetch("/api/user/email-verify/save",{
+        method: "POST",
+        headers: {
+          "Content-Type": "aplication/json",
+        },
+        body: JSON.stringify({
+          email: userToRegister.email,
+        })
+      })
+      const data: CreateCodeRequest = await request.json();
+      setRegisterMessage(data);
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   const registerUser = async () => {
-    const name: HTMLInputElement | null = document.getElementById(
-      "name"
-    ) as HTMLInputElement | null;
-
-    const email: HTMLInputElement | null = document.getElementById(
-      "email"
-    ) as HTMLInputElement | null;
-
-    const password: HTMLInputElement | null = document.getElementById(
-      "password"
-    ) as HTMLInputElement | null;
-
-    const confirmPassword: HTMLInputElement | null = document.getElementById(
-      "confirmPassword"
-    ) as HTMLInputElement | null;
-
-    if (name?.value && email?.value && password?.value) {
-      const toRegister: User = {
-        email: email?.value,
-        name: name?.value,
-        password: password?.value,
-      };
-
-      if (password.value === confirmPassword?.value) {
-        const request = await fetch(`${apiUrl}/user/register`, {
+    setRegisterLoading(true);
+    if(code === ""){
+      setRegisterMessage({
+        status: "error",
+        message: "Ingrese el codigo para verificar su email",
+      })
+    }
+    else{ 
+      try {
+        const codeRequest = await fetch("/api/user/email-verify/get", {
           method: "POST",
           headers: {
             "Content-Type": "aplication/json",
           },
-          body: JSON.stringify(toRegister),
-        });
-        const data = await request.json();
-        if (data.status === "success") setRegisterMessage(data.status);
-      } else {
-        setRegisterMessage("Las contraseñas no coinciden");
+          body: JSON.stringify({
+            email: userToRegister.email,
+            code: code,
+          })
+        })
+        const codeData: CodeRequest = await codeRequest.json();
+        if(codeData.status === "success"){
+          const request = await fetch("/api/user/register", {
+            method: "POST",
+            credentials: "include",
+            headers: {
+              "Content-Type": "aplication/json",
+            },
+            body: JSON.stringify(userToRegister),
+          })
+          const data = await request.json();
+          setRegisterMessage({
+            status: data.status,
+            message: data.message,
+          });
+          if(data.status === "success"){
+            router.push("/");
+          }
+        }
+        else{
+          setRegisterMessage(codeData);
+        }
+      } catch (error) {
+        console.error(error);  
       }
-    } else setRegisterMessage("Rellene todos los campos");
-    router.push("/page/feed");
+    }
+    setRegisterLoading(false);
   };
+
   const logOut = async () => {
-    const request = await fetch(`${apiUrl}/user/logout`, {
+    const request = await fetch("/api/user/logout", {
       method: "POST",
       headers: {
         "Content-Type": "aplication/json",
       },
     });
-    const data = await request.json;
-    router.push("/page/login");
+    const data = await request.json();
+    console.log(data);
+    if(data.status === "success"){
+      router.push("/login");
+    }
   };
 
   const getPorcent = (progress: number, amount: number) => {
@@ -380,6 +470,8 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
   return (
     <AppContext.Provider
       value={{
+        loading,
+        setLoading,
         objetives,
         setObjetives,
         formState,
@@ -396,12 +488,13 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
         profile,
         createObjetive,
         handleChange,
+        handleRegisterChange,
+        handleEditObjetiveChange,
         handleSubmit,
         loginPassword,
         setLoginPassword,
         credentials,
         setCredentials,
-        getProfile,
         registerPassword,
         setRegisterPassword,
         registerConfirmPassword,
@@ -414,7 +507,7 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
         setEditObjetive,
         toEditObjetive,
         userToRegister,
-        SetUserToRegister,
+        setUserToRegister,
         registerUser,
         registerMessage,
         setRegisterMessage,
@@ -433,6 +526,16 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
         setPage,
         file,
         setFile,
+        loginMessage,
+        setLoginMessage,
+        loginLoading,
+        setLoginLoading,
+        registerLoading,
+        setRegisterLoading,
+        code,
+        setCode,
+        handleCode,
+        sendCodeVerification,
       }}
     >
       {children}

@@ -5,7 +5,7 @@ import { BiImageAdd } from "react-icons/bi";
 import React from "react";
 
 export function EditForm() {
-  const { editObjetive, setEditState, toEditObjetive, handleObjetive } =
+  const { editObjetive, setEditState, toEditObjetive, handleEditObjetiveChange, setFile } =
     useAppContext();
   return (
     <div className="w-screen h-screen fixed top-0 left-0 flex items-center justify-center bg-semi">
@@ -15,6 +15,7 @@ export function EditForm() {
           onClick={(e: any) => {
             e.preventDefault();
             setEditState(false);
+            setFile(null);
           }}
         >
           <RxCross1 />
@@ -30,7 +31,7 @@ export function EditForm() {
             placeholder="Objetivo"
             autoFocus
             required
-            onChange={handleObjetive}
+            onChange={handleEditObjetiveChange}
           />
           <Input
             id="amount"
@@ -38,7 +39,7 @@ export function EditForm() {
             defaultValue={editObjetive.amount}
             placeholder="Cantidad"
             required
-            onChange={handleObjetive}
+            onChange={handleEditObjetiveChange}
           />
           <Input
             id="progress"
@@ -46,7 +47,7 @@ export function EditForm() {
             defaultValue={editObjetive.progress}
             placeholder="Progreso"
             required
-            onChange={handleObjetive}
+            onChange={handleEditObjetiveChange}
           />
           <div className="bg-transparent relative cursor-pointer">
             <input
@@ -54,6 +55,12 @@ export function EditForm() {
               name="image"
               id="image"
               className="absolute top-0 right-0 left-0 bottom-0 opacity-0 cursor-pointer"
+              onChange={(e) => {
+                if (e.target && e.target.files && e.target.files.length > 0) {
+                  setFile(e.target.files[0]);
+                }
+              }}
+
             />
             <BiImageAdd className="w-40 h-40 text-titles  cursor-pointer" />
           </div>
