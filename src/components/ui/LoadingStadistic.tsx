@@ -7,7 +7,7 @@ interface Props {
 function LoadingStadistic({ title }: Props) {
   return (
     <div className="w-full bg-back rounded-16 p-5">
-      <h2 className="font-bold text-[15px] sm:text-20 text-center text-titles font-roboto">
+      <h2 className="font-bold text-[15px] sm:text-[20px] md:text-[12px] lg:text-[20px] text-center text-titles font-roboto">
         {title}
       </h2>
       <div className="w-full relative flex items-center justify-center">

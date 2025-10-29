@@ -5,7 +5,7 @@ import CircleCaroucel from "./CircleCaroucel";
 
 const LoadingCaroucel = () => {
   return (
-    <div className="w-full h-166 bg-back ml-[5px] sm:ml-16 rounded-16 relative">
+    <div className="w-full h-166 bg-back ml-[5px] rounded-16 relative">
       <div className="w-full h-[30px] flex justify-center mt-[4px]">
         <div className="w-[234px] h-[30px] bg-[#6F6F6F] rounded-[4px] shadow animate-pulse"></div>
       </div>
