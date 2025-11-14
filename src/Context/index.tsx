@@ -224,6 +224,7 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
       const obRequest = await fetch(`/api/objetive/get/${data.user.id}`, {
         method: "GET",
       });
+      console.log(obRequest);
       const obData: Objetives = await obRequest.json();
       if (obData.status = "success") {
         setObjetives(obData.objetives);
