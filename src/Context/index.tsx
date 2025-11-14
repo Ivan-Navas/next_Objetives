@@ -218,13 +218,11 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
   const profile = async () => {
     const request = await fetch("/api/user/profile");
     const data = await request.json();
-    console.log(data);
     if (data.status === "success") {
       setAuth(data.user);
       const obRequest = await fetch(`/api/objetive/get/${data.user.id}`, {
         method: "GET",
       });
-      console.log(obRequest);
       const obData: Objetives = await obRequest.json();
       if (obData.status = "success") {
         setObjetives(obData.objetives);
@@ -255,9 +253,9 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
         }
       }
       setStateObjetive(obData.objetives.length);
+      setLoading(false);
       return data.user;
     }
-    setLoading(false);
   };
 
   const createObjetive = async () => {
