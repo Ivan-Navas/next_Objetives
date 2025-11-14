@@ -22,7 +22,7 @@ function Caroucel() {
     <>
       {loading ?
         <LoadingCaroucel />:
-        <CaroucelCard objetive={caroucelOb.objetive!} />
+        <CaroucelCard objetive={caroucelOb?.objetive} />
       }
     </>
   );

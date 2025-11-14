@@ -23,6 +23,7 @@ export const POST = async (req: NextRequest) => {
         expiresAt: true,
       }
     })
+    
     if(!codeExist){
       return NextResponse.json({
         status: "error",

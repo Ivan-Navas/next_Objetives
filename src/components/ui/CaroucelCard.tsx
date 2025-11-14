@@ -11,10 +11,15 @@ type Props = {
   objetive: CaroucelObjetive;
 };
 
-const CaroucelCard = (props: Props) => {
-  const { caroucelState, addPoint, getPorcent, page, setPage, caroucelOb } =
-    useAppContext();
-
+const CaroucelCard = ({ objetive }: Props) => {
+  const { 
+    caroucelState,
+    addPoint, 
+    getPorcent, 
+    page, 
+    setPage, 
+    caroucelOb 
+  } = useAppContext();
   return (
     <div className="w-full h-166 bg-back ml-[5px] rounded-16 relative">
       {caroucelState.objetives![0] ? (
@@ -28,18 +33,18 @@ const CaroucelCard = (props: Props) => {
                 <div>
                   <h2 className="text-center text-titles text-16 font-extrabold font-roboto margin-0">
                     {getPorcent(
-                      props.objetive.progress,
-                      props.objetive.amount
+                      objetive.progress,
+                      objetive.amount
                     )}
                     %
                   </h2>
                   <div className="grid relative items-center margin-0">
                     <CircleCaroucel
-                      progress={props.objetive.progress}
-                      amount={props.objetive.amount}
+                      progress={objetive.progress}
+                      amount={objetive.amount}
                     />
                     <img
-                      src={props.objetive.image}
+                      src={objetive.image}
                       alt="objetive_icon"
                       className="w-50 h-50 ml-10 absolute rounded-100%"
                     />
@@ -48,11 +53,11 @@ const CaroucelCard = (props: Props) => {
                 <section className="grid items-center ml-10">
                   <div>
                     <h2 className="text-white text-30 font-extrabold font-roboto">
-                      {props.objetive.title}
+                      {objetive.title}
                     </h2>
                     <p className="text-titles text-16 font-extrabold font-roboto">
-                      {addPoint(props.objetive.progress)} /{" "}
-                      {addPoint(props.objetive.amount)}
+                      {addPoint(objetive.progress)} /{" "}
+                      {addPoint(objetive.amount)}
                     </p>
                   </div>
                 </section>

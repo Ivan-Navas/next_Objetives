@@ -20,52 +20,52 @@ import {
 //#region AppContext
 const AppContext = createContext<ContextType>({
   loading: true,
-  setLoading: () => {},
+  setLoading: () => { },
   objetives: [],
-  setObjetives: () => {},
+  setObjetives: () => { },
   formState: false,
-  setFormState: () => {},
+  setFormState: () => { },
   editState: false,
-  setEditState: () => {},
+  setEditState: () => { },
   newObjetive: {
     title: "",
     amount: 0,
     progress: 0,
     image: "",
   },
-  setNewObjetive: () => {},
+  setNewObjetive: () => { },
   auth: {
     email: "",
     name: "",
   },
-  setAuth: () => {},
+  setAuth: () => { },
   stadistic: {
     objetives: 0,
     objetivesComplete: 0,
     money: 0,
     moneyComplete: 0,
   },
-  setStadistic: () => {},
-  handleObjetive: () => {},
-  profile: () => {},
-  createObjetive: () => {},
-  handleSubmit: () => {},
-  handleChange: () => {},
-  handleRegisterChange: () => {},
-  handleEditObjetiveChange: () => {},
+  setStadistic: () => { },
+  handleObjetive: () => { },
+  profile: () => { },
+  createObjetive: () => { },
+  handleSubmit: () => { },
+  handleChange: () => { },
+  handleRegisterChange: () => { },
+  handleEditObjetiveChange: () => { },
   loginPassword: true,
-  setLoginPassword: () => {},
+  setLoginPassword: () => { },
   credentials: {
     email: "",
-      password: "",
+    password: "",
   },
-  setCredentials: () => {},
+  setCredentials: () => { },
   registerPassword: true,
-  setRegisterPassword: () => {},
+  setRegisterPassword: () => { },
   registerConfirmPassword: true,
-  setRegisterConfirmPassword: () => {},
+  setRegisterConfirmPassword: () => { },
   stateObjetive: 0,
-  setStateObjetive: () => {},
+  setStateObjetive: () => { },
   stateMoney: 0,
   addPoint: () => "",
   editObjetive: {
@@ -73,62 +73,62 @@ const AppContext = createContext<ContextType>({
     title: "",
     progress: 0,
   },
-  setEditObjetive: () => {},
-  toEditObjetive: () => {},
+  setEditObjetive: () => { },
+  toEditObjetive: () => { },
   userToRegister: {
     email: "",
     name: "",
     password: "",
     confirmPassword: "",
   },
-  setUserToRegister: () => {},
-  registerUser: () => {},
+  setUserToRegister: () => { },
+  registerUser: () => { },
   registerMessage: {
     status: "",
     message: "",
   },
-  setRegisterMessage: () => {},
-  logOut: () => {},
+  setRegisterMessage: () => { },
+  logOut: () => { },
   getPorcent: () => 0,
   stateMoneyComplete: 0,
-  setStateMoneyComplete: () => {},
+  setStateMoneyComplete: () => { },
   stateObjetiveComplete: 0,
-  setStateObjetiveComplete: () => {},
+  setStateObjetiveComplete: () => { },
   caroucelState: {
     status: "",
     message: "",
     objetives: [],
   },
-  setCaroucelState: () => {},
-  caroucel: () => {},
+  setCaroucelState: () => { },
+  caroucel: () => { },
   caroucelOb:
-    {
+  {
+    title: "",
+    page: 0,
+    objetive: {
+      id: 0,
       title: "",
-      page: 0,
-      objetive: {
-        id: 0,
-        title: "",
-        progress: 0,
-        amount: 0,
-        image: "",
-        userId: 0,
-      },
+      progress: 0,
+      amount: 0,
+      image: "",
+      userId: 0,
     },
-  setCaroucelOb: () => {},
+  },
+  setCaroucelOb: () => { },
   page: 0,
-  setPage: () => {},
+  setPage: () => { },
   file: "",
-  setFile: () => {},
+  setFile: () => { },
   loginMessage: "",
-  setLoginMessage: () => {},
+  setLoginMessage: () => { },
   loginLoading: false,
-  setLoginLoading: () => {},
+  setLoginLoading: () => { },
   registerLoading: false,
-  setRegisterLoading: () => {},
+  setRegisterLoading: () => { },
   code: "",
-  setCode: () => {},
-  handleCode: () => {},
-  sendCodeVerification: () => {},
+  setCode: () => { },
+  handleCode: () => { },
+  sendCodeVerification: () => { },
 });
 
 export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
@@ -218,31 +218,39 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
   const profile = async () => {
     const request = await fetch("/api/user/profile");
     const data = await request.json();
-    if(data.status === "success"){
+    if (data.status === "success") {
       setAuth(data.user);
       const obRequest = await fetch(`/api/objetive/get/${data.user.id}`, {
         method: "GET",
       });
       const obData: Objetives = await obRequest.json();
-      setObjetives(obData.objetives);
-      let myTotalMoney: number = 0;
-      let myProgressMoney: number = 0;
-      let myCompleteObjetive: number = 0;
-      for (let i: number = 0; i < obData.objetives.length; i++) {
-        myTotalMoney += obData.objetives[i].amount;
-        myProgressMoney += obData.objetives[i].progress;
-        setStateMoney(myTotalMoney);
-        setStateMoneyComplete(myProgressMoney);
-        if (obData.objetives[i].progress >= obData.objetives[i].amount) {
-          myCompleteObjetive++;
-      }
-        setStateObjetiveComplete(myCompleteObjetive);
-      }
-      const caroucelReq = await fetch("/api/objetive/caroucel");
-      const caroucelData: CaroucelRequest = await caroucelReq.json();
-      if (caroucelData.status === "success") {
-        setCaroucelState(caroucelData);
-        setCaroucelOb(caroucelData.objetives![0]);
+      if (obData.status = "success") {
+        //setObjetives(obData.objetives);
+        //let myTotalMoney: number = 0;
+        //let myProgressMoney: number = 0;
+        //let myCompleteObjetive: number = 0;
+        //for (let i: number = 0; i < obData.objetives.length; i++) {
+          //myTotalMoney += obData.objetives[i].amount;
+          //myProgressMoney += obData.objetives[i].progress;
+          //setStateMoney(myTotalMoney);
+          //setStateMoneyComplete(myProgressMoney);
+          //if (obData.objetives[i].progress >= obData.objetives[i].amount) {
+            //myCompleteObjetive++;
+          //}
+          //setStateObjetiveComplete(myCompleteObjetive);
+        //}
+        const caroucelReq = await fetch(`/api/objetive/caroucel`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json"
+          }
+        }
+        );
+        const caroucelData: CaroucelRequest = await caroucelReq.json();
+        if (caroucelData.status === "success") {
+          setCaroucelState(caroucelData);
+          setCaroucelOb(caroucelData.objetives![0]);
+        }
       }
       setStateObjetive(obData.objetives.length);
       setLoading(false);
@@ -311,7 +319,7 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
       [e.target.name]: e.target.value,
     });
   };
-  
+
   const handleCode = (e: any) => {
     setCode(e.target.value);
     console.log(code);
@@ -331,7 +339,7 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
       });
       const data = await request.json();
       setLoginMessage(data.message);
-      if(data.status === "success"){
+      if (data.status === "success") {
         router.push("/");
       }
     } catch (error) {
@@ -356,8 +364,8 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
       })
       const data = await request.json();
 
-      if(data.status === "success"){  
-        if(file){
+      if (data.status === "success") {
+        if (file) {
           const formData = new FormData();
           formData.append("file", file);
           await fetch(`/api/objetive/add-image/${data.objetive.id}`,
@@ -374,9 +382,9 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  const sendCodeVerification = async ()=>{
+  const sendCodeVerification = async () => {
     try {
-      const request = await fetch("/api/user/email-verify/save",{
+      const request = await fetch("/api/user/email-verify/save", {
         method: "POST",
         headers: {
           "Content-Type": "aplication/json",
@@ -394,13 +402,13 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
 
   const registerUser = async () => {
     setRegisterLoading(true);
-    if(code === ""){
+    if (code === "") {
       setRegisterMessage({
         status: "error",
         message: "Ingrese el codigo para verificar su email",
       })
     }
-    else{ 
+    else {
       try {
         const codeRequest = await fetch("/api/user/email-verify/get", {
           method: "POST",
@@ -413,7 +421,7 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
           })
         })
         const codeData: CodeRequest = await codeRequest.json();
-        if(codeData.status === "success"){
+        if (codeData.status === "success") {
           const request = await fetch("/api/user/register", {
             method: "POST",
             credentials: "include",
@@ -427,15 +435,15 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
             status: data.status,
             message: data.message,
           });
-          if(data.status === "success"){
+          if (data.status === "success") {
             router.push("/");
           }
         }
-        else{
+        else {
           setRegisterMessage(codeData);
         }
       } catch (error) {
-        console.error(error);  
+        console.error(error);
       }
     }
     setRegisterLoading(false);
@@ -450,7 +458,7 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
     });
     const data = await request.json();
     console.log(data);
-    if(data.status === "success"){
+    if (data.status === "success") {
       router.push("/login");
     }
   };
@@ -461,7 +469,7 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
     return porcent;
   };
 
-  const caroucel = async () => {};
+  const caroucel = async () => { };
 
   //#region values
   return (

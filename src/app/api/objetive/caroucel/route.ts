@@ -17,6 +17,7 @@ export const GET = async (req: NextRequest) => {
       req,
       secret: process.env.NEXTAUTH_SECRET,
     });
+    console.log(token)
     if (!token && !tokenGoogle) {
       return NextResponse.json({
         status: "error",
@@ -45,7 +46,7 @@ export const GET = async (req: NextRequest) => {
           userId: userExist.id,
         },
       });
-      if (objetives.length >= 1) {
+      if (objetives) {
         const last = await prisma.objetive.findFirst({
           where: {
             userId: userExist.id,
@@ -82,11 +83,18 @@ export const GET = async (req: NextRequest) => {
               page: 3,
             },
         ].filter(Boolean);
+        console.log(response)
         return NextResponse.json({
           status: "success",
           message: "caroucel obtenido",
           objetives: response,
         });
+      }
+      else{
+        return NextResponse.json({
+          status: "error",
+          message: "No hay objetivos"
+        })
       }
     }
     if (tokenGoogle) {
@@ -158,6 +166,7 @@ export const GET = async (req: NextRequest) => {
         });
       }
     }
+    
   } catch (error) {
     return NextResponse.json({
       status: "error",
