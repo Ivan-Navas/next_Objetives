@@ -225,20 +225,20 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
       });
       const obData: Objetives = await obRequest.json();
       if (obData.status = "success") {
-        //setObjetives(obData.objetives);
-        //let myTotalMoney: number = 0;
-        //let myProgressMoney: number = 0;
-        //let myCompleteObjetive: number = 0;
-        //for (let i: number = 0; i < obData.objetives.length; i++) {
-          //myTotalMoney += obData.objetives[i].amount;
-          //myProgressMoney += obData.objetives[i].progress;
-          //setStateMoney(myTotalMoney);
-          //setStateMoneyComplete(myProgressMoney);
-          //if (obData.objetives[i].progress >= obData.objetives[i].amount) {
-            //myCompleteObjetive++;
-          //}
-          //setStateObjetiveComplete(myCompleteObjetive);
-        //}
+        setObjetives(obData.objetives);
+        let myTotalMoney: number = 0;
+        let myProgressMoney: number = 0;
+        let myCompleteObjetive: number = 0;
+        for (let i: number = 0; i < obData.objetives.length; i++) {
+          myTotalMoney += obData.objetives[i].amount;
+          myProgressMoney += obData.objetives[i].progress;
+          setStateMoney(myTotalMoney);
+          setStateMoneyComplete(myProgressMoney);
+          if (obData.objetives[i].progress >= obData.objetives[i].amount) {
+            myCompleteObjetive++;
+          }
+          setStateObjetiveComplete(myCompleteObjetive);
+        }
         const caroucelReq = await fetch(`/api/objetive/caroucel`, {
           method: "GET",
           headers: {
@@ -253,9 +253,9 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
         }
       }
       setStateObjetive(obData.objetives.length);
-      setLoading(false);
       return data.user;
     }
+    setLoading(false);
   };
 
   const createObjetive = async () => {
