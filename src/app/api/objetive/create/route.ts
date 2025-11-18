@@ -80,7 +80,6 @@ export const POST = async (req: NextRequest) => {
           progress: 0,
         }
       })
-      console.log(objetiveGCreate);
       return NextResponse.json({
         status: "success",
         message: "Objetivo creado con exito",
@@ -88,7 +87,6 @@ export const POST = async (req: NextRequest) => {
       })
     }
     else {
-      console.log("aquí")
       return NextResponse.json({
         status: "error",
         message: "Faltan datos",

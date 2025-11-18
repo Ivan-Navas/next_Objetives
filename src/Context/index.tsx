@@ -250,6 +250,7 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
         if (caroucelData.status === "success") {
           setCaroucelState(caroucelData);
           setCaroucelOb(caroucelData.objetives![0]);
+          setLoading(false);
         }
       }
       setStateObjetive(obData.objetives.length);
@@ -457,7 +458,6 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
       },
     });
     const data = await request.json();
-    console.log(data);
     if (data.status === "success") {
       router.push("/login");
     }

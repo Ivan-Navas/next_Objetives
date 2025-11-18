@@ -46,7 +46,6 @@ export const POST = async (req: NextRequest) => {
       },
       process.env.SECRET_VALUE!
     );
-    console.log(token)
     const response = NextResponse.json({
       status: "success",
       mesagge: "Se ragistró con exito al usuario",

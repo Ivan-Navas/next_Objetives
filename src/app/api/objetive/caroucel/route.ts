@@ -17,7 +17,6 @@ export const GET = async (req: NextRequest) => {
       req,
       secret: process.env.NEXTAUTH_SECRET,
     });
-    console.log(token)
     if (!token && !tokenGoogle) {
       return NextResponse.json({
         status: "error",
@@ -83,7 +82,6 @@ export const GET = async (req: NextRequest) => {
               page: 3,
             },
         ].filter(Boolean);
-        console.log(response)
         return NextResponse.json({
           status: "success",
           message: "caroucel obtenido",
