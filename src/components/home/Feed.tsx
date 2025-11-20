@@ -79,13 +79,13 @@ function Feed() {
             Objetivos
           </h2>
           <div className="w-full h-full mt-10 p-3 rounded-16 grid sm:grid-cols-2">
-            {loading ?
+            {/*loading ? 
               <>
                 <LoadingObjetive />
                 <LoadingObjetive />
                 <LoadingObjetive />
                 <LoadingObjetive />
-              </> :
+              </> :  */}
               <>
                 {objetives.length >= 1 ? (
                   <>
@@ -111,7 +111,7 @@ function Feed() {
                   </div>
                 )}
               </>
-            }
+            {/**/}
           </div>
         </section>
       </div>
