@@ -218,12 +218,14 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
   const profile = async () => {
     const request = await fetch("/api/user/profile");
     const data = await request.json();
+    console.log(data)
     if (data.status === "success") {
       setAuth(data.user);
       const obRequest = await fetch(`/api/objetive/get/${data.user.id}`, {
         method: "GET",
       });
       const obData: Objetives = await obRequest.json();
+      console.log(obData)
       if (obData.status = "success") {
         setObjetives(obData.objetives);
         let myTotalMoney: number = 0;
@@ -247,6 +249,7 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
         }
         );
         const caroucelData: CaroucelRequest = await caroucelReq.json();
+        console.log(data)
         if (caroucelData.status === "success") {
           setCaroucelState(caroucelData);
           setCaroucelOb(caroucelData.objetives![0]);
