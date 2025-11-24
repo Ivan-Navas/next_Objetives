@@ -13,11 +13,8 @@ const getPorcent = (progress: number, amount: number) => {
 export const GET = async (req: NextRequest) => {
   try {
     const token = req.cookies.get("token")?.value;
-    const tokenGoogle = await getToken({
-      req,
-      secret: process.env.NEXTAUTH_SECRET,
-    });
-    if (!token && !tokenGoogle) {
+    const googleToken = req.cookies.get("next-auth.session-token")?.value;
+    if (!token && !googleToken) {
       return NextResponse.json({
         status: "error",
         messge: "No se pudo autenticar",
@@ -95,7 +92,14 @@ export const GET = async (req: NextRequest) => {
         })
       }
     }
-    if (tokenGoogle) {
+    if (googleToken) {
+      const tokenGoogle = await getToken({req, secret: process.env.NEXTAUTH_SECRET});
+      if(!tokenGoogle){
+        return NextResponse.json({
+          status: "error",
+          message: "Token invalido"
+        })
+      }
       const userGExist = await prisma.user.findFirst({
         where: {
           email: tokenGoogle.email!,

@@ -7,9 +7,8 @@ import { getToken } from "next-auth/jwt";
 export const GET = async (req: NextRequest) => {
   try {
     const token = req.cookies.get("token")?.value;
-    const tokenGoogle = await getToken({req, secret: process.env.NEXTAUTH_SECRET});
-    
-    if(!token && !tokenGoogle){
+    const googleToken = req.cookies.get("next-auth.session-token")?.value;
+    if(!token && !googleToken){
       return NextResponse.json({
         status: "error",
         message: "No se ha podido autenticar"
@@ -41,7 +40,14 @@ export const GET = async (req: NextRequest) => {
         user: userExist,
       });
     }
-    if(tokenGoogle){
+    if(googleToken){
+      const tokenGoogle = await getToken({req, secret: process.env.NEXTAUTH_SECRET});
+      if(!tokenGoogle){
+        return NextResponse.json({
+          status: "error",
+          message: "Token invalido"
+        })
+      }
       const userGExist = await prisma.user.findFirst({
         where: {
           email: tokenGoogle.email!,
