@@ -3,6 +3,7 @@ import { prisma } from "@/libs/prisma";
 import jwt from "jsonwebtoken";
 import { TokenInterface } from "@/interface/user";
 import { getToken } from "next-auth/jwt";
+export const dynamic = "force-dynamic"
 
 const getPorcent = (progress: number, amount: number) => {
   let num: number = (progress / amount) * 100;

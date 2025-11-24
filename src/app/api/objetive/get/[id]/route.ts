@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 import { TokenInterface } from "@/interface/user";
 import { getToken } from "next-auth/jwt";
+export const dynamic = "force-dynamic"
 
 export const GET = async (req: NextRequest, context: { params: Promise<{id: string}>}) => { 
   try {

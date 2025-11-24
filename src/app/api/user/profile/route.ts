@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 import { prisma } from "@/libs/prisma";
 import { TokenInterface } from "@/interface/user";
 import { getToken } from "next-auth/jwt";
+export const dynamic = "force-dynamic"
 
 export const GET = async (req: NextRequest) => {
   try {
