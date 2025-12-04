@@ -9,9 +9,9 @@ export const PUT = async (req: NextRequest, context: { params: Promise<{id: stri
   try {
     const objetiveEdited = await req.json();
     const token = cookies().get("token")?.value;
-    const tokenGoogle = await getToken({req, secret: process.env.NEXTAUTH_SECRET});
+    const googleToken = req.cookies.get("next-auth.session-token")?.value;
     const id = (await context.params)?.id;
-    if(!token && !tokenGoogle){
+    if(!token && !googleToken){
       return NextResponse.json({
         status: "error",
         message: "No se pudo autenticar",
@@ -67,7 +67,14 @@ export const PUT = async (req: NextRequest, context: { params: Promise<{id: stri
         objetive: wasEdited,
       });
     } 
-    if(tokenGoogle){
+    if(googleToken){
+      const tokenGoogle = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
+      if(!tokenGoogle){
+        return NextResponse.json({
+          status: "error",
+          message: "Token invalido"
+        })
+      }
       const userGExist = await prisma.user.findFirst({
         where: {
           email: tokenGoogle.email!,

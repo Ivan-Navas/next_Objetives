@@ -11,12 +11,9 @@ export const DELETE = async (
 ) => {
   try {
     const token = cookies().get("token")?.value;
+    const googleToken = req.cookies.get("next-auth.session-token")?.value;
     const objetiveId = (await context.params)?.id;
-    const tokenGoogle = await getToken({
-      req,
-      secret: process.env.AUTH_SECRET!,
-    });
-    if (!token && !tokenGoogle) {
+    if (!token && !googleToken) {
       return NextResponse.json({
         status: "error",
         message: "No se pudo autenticar",
@@ -50,7 +47,14 @@ export const DELETE = async (
         });
       }
     }
-    if (tokenGoogle) {
+    if (googleToken) {
+      const tokenGoogle = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
+      if(!tokenGoogle){
+        return NextResponse.json({
+          status: "error",
+          message: "Token invalido"
+        })
+      }
       const userGExist = await prisma.user.findFirst({
         where: {
           email: tokenGoogle.email!,
