@@ -326,7 +326,6 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
 
   const handleCode = (e: any) => {
     setCode(e.target.value);
-    console.log(code);
   }
 
   const handleSubmit = async (e: any) => {

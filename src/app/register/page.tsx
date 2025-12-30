@@ -7,6 +7,7 @@ import { BiArrowBack } from "react-icons/bi";
 import { Title } from "@/components/ui/Title";
 import { useAppContext } from "@/Context";
 import Image from "next/image";
+import {sendVerificationEmail} from "../action"
 
 function Register() {
   //TODO(Ramiro) add register function
@@ -21,6 +22,7 @@ function Register() {
     registerLoading,
     handleCode,
     sendCodeVerification,
+    userToRegister
   } = useAppContext();
 
   return (
@@ -59,7 +61,7 @@ function Register() {
               title="button"
               type="button"
               className="w-[26px] h-[26px] rounded-[4px] bg-[#BADE00] flex items-center justify-center"
-              onClick={sendCodeVerification}
+              onClick={()=>sendVerificationEmail({email: userToRegister.email as string, name: userToRegister.name as string})}
             >
               <BiEnvelope
                 className="w-[26] h-[26px] text-[#1F1F1F]"
