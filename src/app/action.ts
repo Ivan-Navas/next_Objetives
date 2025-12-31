@@ -12,7 +12,7 @@ export async function sendVerificationEmail({ email, name }: Params) {
   const userName = name;
   const code = crypto.randomInt(100000, 999999);
   if (!userEmail) {
-    return console.log("Ingrese su email", email);
+    return console.log("Ingrese su email");
   }
   try {
     const request = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user/email-verify/save`, {
