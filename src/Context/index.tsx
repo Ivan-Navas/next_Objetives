@@ -404,6 +404,7 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
   }
 
   const registerUser = async () => {
+    setRegisterMessage({status: "", message: ""});
     setRegisterLoading(true);
     if (code === "") {
       setRegisterMessage({
