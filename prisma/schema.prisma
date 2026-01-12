@@ -27,6 +27,14 @@ model UserVerify {
   expiresAt DateTime
 }
 
+model PasswordRecover {
+  id Int @id @default(autoincrement())
+  email String
+  code Int
+  isVerify Boolean @default(false)
+  expiresAt DateTime
+}
+
 model Objetive {
   id Int @id @default(autoincrement())
   title String
