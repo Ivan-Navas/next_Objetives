@@ -2,12 +2,16 @@ import { Objetive as ObjetiveInterface } from "@/interface/objetive";
 import { Auth as AuthInterface, UserToRegister } from "@/interface/auth";
 import { Stadistic as StadisticInterface } from "@/interface/stadistic";
 import { Credential } from "@/interface/login";
-import User, { RegisterMessage } from "@/interface/user";
+import User, { RecoverMessage, RegisterMessage } from "@/interface/user";
 import { CaroucelCard, CaroucelRequest, CaroucelObjetive } from "@/interface/caroucel";
 
 export type ContextType = {
   loading: boolean;
   setLoading: (loading: boolean) => void;
+  recoverLoading: boolean;
+  setRecoverLoading: (recoverLoading: boolean) => void;
+  recoverMessage: RecoverMessage;
+  setRecoverMessage: (recoverMessage: RecoverMessage) => void;
   objetives: ObjetiveInterface[];
   setObjetives: (objetives: ObjetiveInterface[]) => void;
   formState: boolean;

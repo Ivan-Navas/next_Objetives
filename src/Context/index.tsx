@@ -8,7 +8,7 @@ import { ContextType } from "@/types/indexTypes";
 import { Stadistic as StadisticInterface } from "@/interface/stadistic";
 import { Auth as AuthInterface, UserToRegister } from "@/interface/auth";
 import { Credential } from "@/interface/login";
-import User, { CodeRequest, CreateCodeRequest, RegisterMessage } from "@/interface/user";
+import User, { CodeRequest, CreateCodeRequest, RecoverMessage, RegisterMessage } from "@/interface/user";
 import { Objetives } from "@/interface/objetives";
 import { useRouter } from "next/navigation";
 import {
@@ -21,6 +21,13 @@ import {
 const AppContext = createContext<ContextType>({
   loading: true,
   setLoading: () => { },
+  recoverLoading: false,
+  setRecoverLoading: () => { },
+  recoverMessage: {
+    status: "",
+    message: "",
+  },
+  setRecoverMessage: () => {},
   objetives: [],
   setObjetives: () => { },
   formState: false,
@@ -135,6 +142,11 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
   //#region states/variables
   const apiUrl = process.env.NEXT_PUBLIC_VERCEL_API;
   const [loading, setLoading] = useState<boolean>(true);
+  const [recoverLoading, setRecoverLoading] = useState<boolean>(false);
+  const [recoverMessage, setRecoverMessage] = useState<RecoverMessage>({
+    status: "",
+    message: "",
+  })
   const router = useRouter();
   const [objetives, setObjetives] = useState<ObjetiveInterface[]>([]);
   const [editObjetive, setEditObjetive] = useState<ObjetiveInterface>({
@@ -480,6 +492,10 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
       value={{
         loading,
         setLoading,
+        recoverLoading,
+        recoverMessage,
+        setRecoverMessage,
+        setRecoverLoading,
         objetives,
         setObjetives,
         formState,

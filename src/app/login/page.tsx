@@ -70,7 +70,7 @@ function Login() {
               Crea una.
             </Link>
           </div>
-          <Link href="" className="border-b border-b-white text-12">
+          <Link href="/recover-password" className="border-b border-b-white text-12">
             Olvidé mi contraseña
           </Link>
         </div>

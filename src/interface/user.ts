@@ -16,6 +16,11 @@ export interface RegisterMessage {
   message: string,
 }
 
+export interface RecoverMessage {
+  status: string,
+  message: string,
+}
+
 export interface CreateCodeRequest {
   status: string,
   message: string,
