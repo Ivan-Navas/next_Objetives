@@ -6,9 +6,12 @@ import { BiArrowBack, BiLowVision, BiEnvelope } from "react-icons/bi";
 import { Input, Button } from "@/components/ui";
 import Image from "next/image"
 import { useAppContext } from "@/Context";
+import { sendPasswordRecover } from "../emails/recover-password";
+import { useState } from "react";
 
 function RecoverPassword() {
   const { recoverLoading, recoverMessage } = useAppContext();
+  const [ email, setEmail ] = useState<string>("")
 
   return(
     <div className="w-screen h-screen flex justify-center items-center">
@@ -33,9 +36,16 @@ function RecoverPassword() {
           placeholder="Correo" 
           id="email"  
           required 
+          onChange={(e)=>(
+            setEmail(e.target.value)
+          )}
         />
         <Button
           className="w-full h-[32px] bg-[#C7F52D] flex justify-center rounded-16 mt-[73px] text-20 text-[#2f2f2f] font-extrabold"
+          onClick={(e)=>{
+            e.preventDefault();
+            sendPasswordRecover(email);
+          }}
         > 
           {recoverLoading ?
             <Image 

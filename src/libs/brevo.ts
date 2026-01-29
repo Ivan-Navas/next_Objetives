@@ -57,7 +57,6 @@ export async function recoverPasswordEmail({ to, code }: Params) {
           <p style="font-size:20px; color:#BADE00; text-align:center;">Oinc</p>
         </div>
       </div>
-      <p style="font-family:sans-serif; color:#FFFFFF; font-size:12px; font-weight:bold;">Hola ${to[0].name}:</p>
       <p style="font-family:sans-serif; color:#FFFFFF; font-size:12px; font-weight:bold;">Este es tu código para recuperar tu contraseña.</p>
       <div style="height:66px; background:#1F1F1F; border-radius:16px;">
         <h1 style="font-family: sans-serif; color:#BADE00; font-size:40px; font-weight:bold; text-align:center;">${code}</h1>
@@ -65,5 +64,7 @@ export async function recoverPasswordEmail({ to, code }: Params) {
       <p style="font-family:sans-serif; color:#FFFFFF; font-size:12px; font-weight:bold;">¿No fuiste tu? simplemente puedes ignorar este mensaje.</p>
       <p style="font-family:sans-serif; color:#FF0000; font-size:35px; font-weight:bold;">¡Recuerda, no compartas este código!</p>
     </body>
-  </html>`
+  </html>`;
+  smtpEmail.sender = { email: "ivanrng1502@gmail.com", name: "Ivan Navas" };
+  await apiInstance.sendTransacEmail(smtpEmail);
 }
